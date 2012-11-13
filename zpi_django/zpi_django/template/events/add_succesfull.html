@@ -1,0 +1,36 @@
+{% extends "schema_main_page.html" %}
+
+{% block title %}Dodano wydarzenie - Coolturalni.pl {% endblock %}
+
+{% block head_extensions %}
+<link rel="stylesheet" href="{{ MEDIA_URL }}css/events/add_event.css">
+<script src="{{ MEDIA_URL }}js/events/data_picker.js"></script>
+<script src="{{ MEDIA_URL }}js/qrCode/jquery.qrcode-0.2.min.js"></script>
+
+<script type="text/javascript">
+
+$(document).ready(function() {
+	var url='{{url}}'
+	$("#qrCode").qrcode({
+		render: 'canvas',
+		width: 300,
+		height: 300,
+		text: url
+	});
+	
+});
+
+
+</script>
+{% endblock %}
+
+
+{% block container %}
+	<div id="container">
+			<br/>
+			<h2>{{message}}</h2>
+			<br/>
+			<p>Twój QR Code do ściągnięcia to:</p>
+			<div id="qrCode"> </div>
+	</div>
+{% endblock %}

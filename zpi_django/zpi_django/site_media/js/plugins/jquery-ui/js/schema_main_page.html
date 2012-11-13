@@ -1,0 +1,27 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="pl" lang="pl">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title></title>
+		<script src="jquery-1.8.2.js"></script>
+  <style>
+  div { width:60px; height:60px; margin:5px; float:left;
+        border:2px white solid; border:1px solid black;}
+  </style>
+
+	<script type="text/javascript">
+	$(document).ready(function() {
+		$('div').filter("#mid")
+				.css("border-color","red");
+	});
+	</script>
+	</head>
+		<div id="mid"></div>
+		<div id="mid"></div>
+		<div id="bot"></div>
+		<div id="bot"></div>
+		
+	</body>	
+</html>

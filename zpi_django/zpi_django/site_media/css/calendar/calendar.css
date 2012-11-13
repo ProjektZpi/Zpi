@@ -1,0 +1,83 @@
+.month{
+	margin: 0 auto;
+
+	border: 1px solid white;
+	text-align:center;
+}
+
+
+.month td{
+	height:70px;
+}
+
+.month td, th{
+	width:90px;
+}
+
+.month tr, .month th, .month td{
+	border: 1px solid white;
+}
+
+.mon, .tue, .wed, .thu, .fri, .sat, .sun {
+	background-color: #f6f6f6;
+}
+
+th {
+	background-color: #eeeeee !important;
+	height:30px !important;
+}
+
+
+.today{
+	border: 1px solid black;
+	background-color: #ffcccc
+}
+
+.filled{
+	background-color: #fff6bf;
+}
+
+.tooltip{
+	color:#108aaf;
+	font: 0.9em "Helvetica Neue", Helvetica, Arial, sans-serif;
+	cursor:pointer;
+}
+
+#events, #events td{
+    border-collapse: collapse;
+	border: 1px solid white;
+}
+
+#calendar_header{
+    color: #814385 !important;
+    font-size: 1.2em !important;
+    font-weight:bold !important;
+}
+
+#ul_events
+{
+	list-style-image: url('/site_media/images/bullet.gif');
+
+}
+
+#navigation{
+	margin-top:10px;
+	margin-left:auto;
+	margin-right:auto;
+	
+}
+
+
+#navigation td, #navigation tr{
+		border-collapse: collapse
+}
+
+.navigation{
+	color: #2092b5;
+	text-decoration:none;
+}
+
+a{
+	text-decoration:none;
+	color: #656565;
+}

@@ -1,0 +1,271 @@
+{% extends "schema_main_page.html" %}
+
+{% block title %}Dodaj wydarzenie - Coolturalni.pl {% endblock %}
+
+{% block head_extensions %}
+<script src="{{ MEDIA_URL }}js/user_profile/edit_profile.js"></script>
+<script>
+	$(function() {
+		$( "#accordion" ).accordion({
+			active: false,
+			collapsible: true,
+			heightStyle: "content"
+		});
+		$( "#tabs" ).tabs();
+	});
+</script>
+<link rel="stylesheet" href="{{ MEDIA_URL }}css/user_profile/my_profile.css">
+{% endblock %}
+
+{% block container %}
+<div id="container">
+<div id="center" class="column">
+	
+<div id="tabs" style='font: 0.8em "Helvetica Neue", Helvetica, Arial, sans-serif;'>
+	<ul>
+		<li><a href="#tabs-1">Tablica</a></li>
+		<li><a href="#tabs-2">Kalendarz</a></li>
+		<li><a href="#tabs-3">Moje wydarzenia</a></li>
+		<li><a href="#tabs-4">Znajomi</a></li>
+		<li><a href="#tabs-5">Edytuj dane</a></li>
+	</ul>
+	<div id="tabs-1">
+		<p>1 Proin elit arcu, rutrum commodo, vehicula tempus, commodo a, risus. Curabitur nec arcu. Donec sollicitudin mi sit amet mauris. Nam elementum quam ullamcorper ante. Etiam aliquet massa et lorem. Mauris dapibus lacus auctor risus. Aenean tempor ullamcorper leo. Vivamus sed magna quis ligula eleifend adipiscing. Duis orci. Aliquam sodales tortor vitae ipsum. Aliquam nulla. Duis aliquam molestie erat. Ut et mauris vel pede varius sollicitudin. Sed ut dolor nec orci tincidunt interdum. Phasellus ipsum. Nunc tristique tempus lectus.</p>
+	</div>
+	<div id="tabs-2">
+			{{ calendar }}
+		</div>
+	<div id="tabs-3">
+		<h2>Lista wydarzeń utworzonych przez Ciebie</h2><hr class="divide"/>
+		<ul class="my_events_list">
+		{% for my_event in my_events %}
+		<li>
+			<img src="{{ my_event.miniature.url }}"/>
+			<div class="my_event_info">
+				<a href="{% url zpi_django.events.views.event_detail my_event.id %}">{{ my_event.name }}</a>
+				<div class="date">{{ my_event.start_date|date:"d E Y" }}</div>
+				<p>{{ my_event.introduction }}</p>
+			</div>
+			<div id="footer"></div><hr class="divide" style="margin-bottom:10px;"/>
+		</li>
+		{% endfor %}
+		</ul>
+	</div>
+	<div id="tabs-4">
+		<h2>Lista Wszystkich Twoich znajomych w serwisie </h2><hr class="divide"/>
+		<ul class="my_friends_list">
+		{% for my_friend in my_friends %}
+			<li>
+				<table>
+				<tr>
+					<td style="width:80px">
+						{% if my_friend.friend.get_profile.avatar %}
+						<img src="{{ my_friend.friend.get_profile.avatar.url }}" />
+						{% else %}
+							{% if my_friend.friend.get_profile.gender = 'K' %}
+								<img src="{{ MEDIA_URL }}images/women_avatar_default.jpg" />
+							{% else %}
+							<img src="{{ MEDIA_URL }}images/men_avatar_default.jpg" />
+							{% endif %}
+						{% endif %}
+					</td>
+					<td style="width:200px"><a class="friend_username" href="{% url zpi_django.friends.views.profile_information my_friend.friend.id %}">{{ my_friend.friend.username }}</a></td>
+					<td style="width:120px">{{ my_friend.friend.first_name }}</td>
+					<td style="width:120px">{{ my_friend.friend.last_name }}</td>
+					<td style="width:120px">{{ my_friend.friend.get_profile.city }}</td>
+				</tr>
+				</table>
+				<hr class="divide" style="margin-bottom:10px;"/>
+			</li>
+		{% empty %}
+			<li>Nie oznaczyłeś jeszcze żadnego użytkownika jako swojego znajomego. Aby to zrobić wyświetl profil użytkownika a nastepnie wybierz opcję <b>"Dodaj do znajomych"</b></li>
+		{% endfor %}
+		</ul>
+	</div>
+	<div id="tabs-5">
+		<h2>Ogólne ustawienia konta</h2><hr class="divide"/>
+		<div id="accordion">
+			<h3>Imię i nazwisko</h3>
+			<div style="text-align:right;">
+				<form method="post" class="form_in_tabs" action="{% url zpi_django.user_profile.views.edit_profile 1 %}" id="edit_names_form">{% csrf_token %}
+					<table>
+					{% for field in edit_names_form %}
+						<tr><td class="label"><label for="{{ field.name}}"><b>{{ field.label}}:</b> </label></td>
+						<td style="width:20px;"></td>
+						<td>{{ field }}</td><td class="errors">{{ field.errors }}</td></tr>
+					{% endfor %}
+					</table>
+					<div style="margin-top:20px;">
+						<div class="error" id="id1" style="float:left;"></div>
+						<button style="float:right;" name="submit" type="submit" id="submit" class="button" tabindex="5">Zapisz zmiany</button>
+					</div>				
+				</form>
+			</div>
+			<h3>Hasło dostępu</h3>
+			<div style="text-align:right;">
+				<form method="post" class="form_in_tabs" action="{% url zpi_django.user_profile.views.edit_profile 2 %}" id="edit_names_form">{% csrf_token %}
+					<table>
+					{% for field in edit_password_form %}
+						<tr><td class="label"><label for="{{ field.name}}"><b>{{ field.label}}:</b> </label></td>
+						<td style="width:20px;"></td>
+						<td>{{ field }}</td><td class="errors">{{ field.errors }}</td></tr>
+					{% endfor %}
+					</table>
+					<div style="margin-top:20px;">
+						<div class="error" style="float:left;"></div>
+						<button style="float:right;" name="submit" type="submit" id="submit" class="button" tabindex="5">Zapisz zmiany</button>
+					</div>
+					<div id="footer"></div>
+				</form>
+			</div>
+			<h3>Adres e-mail</h3>
+			<div style="text-align:right;">
+				<form method="post" class="form_in_tabs" action="{% url zpi_django.user_profile.views.edit_profile 3 %}" id="edit_names_form">{% csrf_token %}
+					<table>
+					{% for field in edit_email_form %}
+						<tr><td class="label"><label for="{{ field.name}}"><b>{{ field.label}}:</b> </label></td>
+						<td style="width:20px;"></td>
+						<td>{{ field }}</td><td class="errors">{{ field.errors }}</td></tr>
+					{% endfor %}
+					</table>
+					<div style="margin-top:20px;">
+						<div class="error" style="float:left;"></div>
+						<button style="float:right;" name="submit" type="submit" id="submit" class="button" tabindex="5">Zapisz zmiany</button>
+					</div>
+					<div id="footer"></div>
+				</form>
+			</div>
+			<h3>Miasto</h3>
+			<div style="text-align:right;">
+				<form method="post" class="form_in_tabs" action="{% url zpi_django.user_profile.views.edit_profile 4 %}" id="edit_names_form">{% csrf_token %}
+					<table>
+					{% for field in edit_city_form %}
+						<tr><td class="label"><label for="{{ field.name}}"><b>{{ field.label}}:</b> </label></td>
+						<td style="width:20px;"></td>
+						<td>{{ field }}</td><td class="errors">{{ field.errors }}</td></tr>
+					{% endfor %}
+					</table>
+					<div style="margin-top:20px;">
+						<div class="error" style="float:left;"></div>
+						<button style="float:right;" name="submit" type="submit" id="submit" class="button" tabindex="5">Zapisz zmiany</button>
+					</div>
+					<div id="footer"></div>
+				</form>
+			</div>
+			<h3>Zdjęcie profilowe</h3>
+			<div style="text-align:left;">
+				<form enctype="multipart/form-data" method="post" id="edit_names_form">{% csrf_token %}
+					<table>
+						{% if user.get_profile.avatar %}
+							<tr>
+								<td></td><td style="width:20px;"></td><td><label for="avatar-clear_id">Usuń obecne</label><input type="checkbox" name="avatar-clear" id="avatar-clear_id" /></td>
+							</tr>
+						{% endif %}
+						<tr><td class="label"><label for="avatar"><b>Avatar:</b> </label></td><td style="width:20px;"></td>
+						<td style="width:20px;"><input type="file" name="avatar" id="id_avatar" /></td></tr>
+					</table>
+					<div style="margin-top:20px;">
+						<div class="error" style="float:left;"></div>
+						<button style="float:right;" name="submit" type="submit" id="submit" class="button" tabindex="5">Zapisz zmiany</button>
+					</div>
+					<div id="footer"></div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+</div>
+<!-- LEFT COLUMN -->
+<div id="left" class="column">
+	<ul id="sortable" style=" list-style-type: none;margin:0;padding:0;">
+		<li>
+			<div class="widget" style="padding-bottom:2px;">
+				<div style="margin-left:-10px;margin-top:-10px; padding:0;">
+					{% if user.get_profile.avatar %}
+						<img src="{{ user.get_profile.avatar.url }}" />
+					{% else %}
+						{% if user.get_profile.gender = 'K' %}
+							<img src="{{ MEDIA_URL }}images/women_avatar_default.jpg" />
+						{% else %}
+							<img src="{{ MEDIA_URL }}images/men_avatar_default.jpg" />
+						{% endif %}
+					{% endif %}
+					<p style="text-align:center; font-size:0.9em; margin:0; padding:0;color:#4f4f4f;">{{ user.username }}</p>
+				</div>				
+			</div>
+		</li>
+		<li>
+			<!-- WIDGET 1 -->
+			<div class="widget">
+				<div class="widget_title">
+					<a href="#">Najbliższe wydarzenia</a><img class="widget_hide" /><hr/>
+				</div>
+				<div class="widget_list_item">
+					<!-- MIEJSCE NA NAJBLIZSZE WYDARZENIA ZMIENNA: close_events -->
+				</div><hr/>
+			</div>
+		</li>
+		<li>
+			<div class="widget">
+				<div class="widget_title">
+					<a href="#">Propozycje wydarzeń</a><img class="widget_hide" /><hr/>
+				</div>
+				<div class="widget_list_item">
+					<p class="widget_text">
+						{% if recommended_events|length > 0 %}
+							<ul>
+								{% for event in recommended_events %}
+								<li><a href="{% url zpi_django.events.views.event_detail event.id %}" style="font-size:0.9em;">{{ event.name }}</a></li>
+								{% endfor %}
+							</ul>
+						{% else %}
+							Brak propozycji wydarzeń, oceń kilka wydarzeń, aby otrzymać nowe propozycje.
+						{% endif %}
+					</p>
+				</div>				
+			</div>
+		</li>
+
+	</ul>
+</div>
+<!-- END LEFT COLUMN -->
+<!-- RIGHT COLUMN -->
+<div id="right" class="column">
+	<ul id="sortable2" style=" list-style-type: none;margin:0;padding:0;">
+	<li>
+		<!-- WIDGET 1 -->
+		<div class="widget">
+			<div class="widget_title">
+				<a href="#">Statystyki</a><img class="widget_hide" /><hr/>
+			</div>
+			<div class="widget_list_item">
+			</div><hr/>
+		</div>
+	</li>
+	<li>
+		<!-- WIDGET 2 -->
+		<div class="widget">
+			<div class="widget_title">
+				<a href="#">Nowi znajomi</a><img class="widget_hide" /><hr/>
+			</div>
+			<div class="widget_list_item">
+			</div><hr/>
+		</div>
+	</li>
+	<li>
+		<!-- WIDGET 3 -->
+		<div class="widget">
+			<div class="widget_title">
+				<a href="#">Historia</a><img class="widget_hide" /><hr/>
+			</div>
+			<div class="widget_list_item">
+			</div><hr/>
+		</div>
+	</li>
+
+	</ul>
+</div>
+</div>
+{% endblock %}
+

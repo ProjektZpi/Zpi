@@ -1,0 +1,19 @@
+KILKA WA¯NYCH ZASAD !
+
+1. Nazewnictwo funkcji, klas, folderów, zmiennych, modu³ów i innych ma byæ PO ANGIELSKU
+2. U¿ywamy intuicyjnych nazw, dziêki temu ³atwiej bêdziemy mogli siebie kontrolowaæ zamiast nazwaæ funkcjê do wyœwietlania zdjêæ pokmenoów 'abcd' nazywamy np. 'show_pokemon_images'
+4. Ka¿dy tworzy w³asn¹ aplikacjê (startapp nazwa_aplikacji) i w niej buduje swój kod (backlog)
+5. Po dodaniu nowej aplikacji pamiêtaj, ¿e trzeba j¹ dodaæ do INSTALED_APPS w settings.py !!!! NIE ZAPOMINAJCIE O TRAILING COMA ! (przecinkach na koñcu:P)
+6. Folder dla szablonów .html to /template/ i umieszczamy w nim szablony zgodnie ze schematem /template/nazwa_aplikacji/nazwa_szablonu.html 
+7. U¿ywamy XHTML 1.0 STRICT !! sprawdzaæ swoje szablony walidatorem :>
+8. Folder dla grafiki statycznej to /site_media/ . Z poziomu szablonów odnosimy siê do niej za pomoc¹ {{ MEDIA_URL }} !!
+   - {{ MEDIA_URL }} generuje pliki do w.w folderu . UWAGA na koñcu jest stawiany slash czyli dostêp do np. css wygl¹da tak: {{ MEDIA_URL }}css/style.css
+   - Zachowywaæ strukturê jak w szablonach, ¿eby wszystkei zdjêcia nie by³y ze sob¹.
+9. Kodowanie plików ma byæ UTF8 ! inaczej bêd¹ nam siê krzaczyæ polskie znaki w htmlu.
+   - Je¿eli coœ Ci siê krzaczy w plikach .py dodaj na samej górze: # -*- coding: utf8 -*-
+   
+10. Ka¿da aplikacja ma mieæ w³asne URL'e oraz widoki nie zamieszczaæ wszystkiego w g³ównym folderze projektu view.py tylko we w³asnych
+    - URL w g³ównym urls.py includowaæ np. je¿eli aplikacja nazywa siê bartosz to w g³ównym urls.py includujemy
+     url(r'^bartosz/', include('zpi_django.bartosz.urls')), << PRZECINKI NA KOÑCU PILNUJCIE
+     dziêki temu wszystkie urle które wpisaliœcie w swojej app zostan¹ zaimportowane, a adresy url pokazywane w przegl¹darce bêda wygl¹da³y:
+     127.0.0.1:8000/bartosz/twoj_url_zapp/

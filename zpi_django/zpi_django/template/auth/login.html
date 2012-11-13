@@ -1,0 +1,112 @@
+{% extends "schema_main_page.html" %}
+
+{% block title %}Dodaj wydarzenie - Coolturalni.pl {% endblock %}
+
+{% block head_extensions %}
+<link rel="stylesheet" href="{{ MEDIA_URL }}css/events/add_event.css">
+<link rel="stylesheet" href="{{ MEDIA_URL }}css/auth/registration.css">
+<script src="{{ MEDIA_URL }}js/events/data_picker.js"></script>
+
+{% endblock %}
+
+{% block container %}
+<div id="container">
+<div id="center" class="column">
+	<div id="center_place">
+		<h1>Formularz logowania</h1>
+		<p style="font-size:0.9em;">Strona, która chcesz przeglądnąć wymaga autoryzacja. Wypełnij formularz logowania, aby uzyskać dostęp.</p>
+		<hr class="divide"/>
+		
+		<form id="register" action="{% url zpi_django.auth.views.login_form_alternative %}" method="post">{% csrf_token %}
+			<table id="add_event">
+			    {% for field in login_form_alternative %}
+						<tr><td class="label"><label for="{{ field.name}}">{{ field.label}}: </label></td>
+						<td>{{ field }}</td></tr>
+				{% endfor %} 
+			</table>
+			{% if next_page %} {# REDIRECT PAGE #}
+  				<input type="hidden" name="next_page" value="{{ next_page }}" />
+  			{% endif %}
+			<div style="margin-top:20px;">
+			<div class="error" style="float:left;">{{ error }}</div>
+			<button style="float:right;" name="submit" type="submit" id="submit" class="button" tabindex="5">Zaloguj</button>
+			</div>
+			<div id="footer"></div>
+		</form>
+	</div>
+</div>
+<!-- LEFT COLUMN -->
+<div id="left" class="column">
+	<ul id="sortable" style=" list-style-type: none;margin:0;padding:0;">
+		<li>
+			<div class="widget">
+				<div class="widget_title">
+					<a href="#">Dlaczego warto?</a><img class="widget_hide" /><hr/>
+				</div>
+				<div class="widget_list_item">
+					<a href="#">Dodawaj wydarzenia</a><hr/>
+					<a href="#">Przeglądaj swój kalendarz wydarzeń</a><hr/>
+					<a href="#">Ocenaij wydarzenia</a><hr/>
+					<a href="#">Proponowane przez system wydarzenia dostosowane pod Twoje preferencje</a><hr/>
+				</div>				
+			</div>
+		</li>
+		<li>
+			<div class="widget">
+				<div class="widget_title">
+					<a href="#">Ostatnio zarejestrowani</a><img class="widget_hide" /><hr/>
+				</div>
+				<div class="widget_list_item">
+				</div>				
+			</div>
+		</li>
+	</ul>
+</div>
+<!-- END LEFT COLUMN -->
+<!-- RIGHT COLUMN -->
+<div id="right" class="column">
+	<div class="widget">
+		<div class="widget_title">
+			<a href="#">Konta powiązane</a><hr/>
+		</div>
+		<div class="widget_list_item">
+		<a style="margin:0;">Połącz konto z <b>Coolturalni.pl</b> Dzięki temu jednym kliknięciem zarejestrujesz się na naszej witrynie. Łącząc konta odnajdziesz swoich znajomych.</a>
+		</div><hr/>
+	</div>
+	<ul id="sortable2" style=" list-style-type: none;margin:0;padding:0;">
+	<li>
+		<!-- WIDGET 1 -->
+		<div class="widget">
+			<div class="widget_title">
+				<a href="#">via Facebook</a><img class="widget_hide" /><hr/>
+			</div>
+			<div class="widget_list_item">
+			</div><hr/>
+		</div>
+	</li>
+	<li>
+		<!-- WIDGET 2 -->
+		<div class="widget">
+			<div class="widget_title">
+				<a href="#">via Twitterem</a><img class="widget_hide" /><hr/>
+			</div>
+			<div class="widget_list_item">
+			</div><hr/>
+		</div>
+	</li>
+	<li>
+		<!-- WIDGET 3 -->
+		<div class="widget">
+			<div class="widget_title">
+				<a href="#">via Gmail</a><img class="widget_hide" /><hr/>
+			</div>
+			<div class="widget_list_item">
+			</div><hr/>
+		</div>
+	</li>
+
+	</ul>
+</div>
+</div>
+{% endblock %}
+

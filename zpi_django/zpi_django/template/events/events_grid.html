@@ -1,0 +1,90 @@
+{% extends "schema_main_page.html" %}
+
+{% block title %}Dodaj wydarzenie - Coolturalni.pl {% endblock %}
+
+{% block head_extensions %}
+<link rel="stylesheet" href="{{ MEDIA_URL }}js/plugins/jquery-ui/development-bundle/themes/smoothness/jquery.ui.datepicker.css">
+<link rel="stylesheet" href="{{ MEDIA_URL }}css/events/events_grid.css">
+<link rel="Stylesheet" type="text/css" href="{{ MEDIA_URL }}css/isotope/style.css" />
+<script src="{{ MEDIA_URL }}js/plugins/isotope/jquery.isotope.min.js"></script>
+<script src="{{ MEDIA_URL }}js/plugins/isotope/isotope_function.js"></script>
+<script src="{{ MEDIA_URL }}js/events/data_picker.js"></script>
+{% endblock %}
+
+
+{% block container %}
+<div class="grid_container">
+	<div class="grid_left" style="">
+		<ul id="sortable" style=" list-style-type: none;margin:0;padding:0;">
+			<li>
+				<div class="widget">
+					<div class="widget_title">
+						<a href="#">Kategoria</a><img class="widget_hide" /><hr/>
+					</div>
+					<div class="widget_list_item">
+						<select class="filter option-set clearfix"  data-filter-group="category">
+							    <option data-filter-value="" class="selected">Wszystkie</option>
+							    {% for category in categories %}
+							    <option data-filter-value=".{{ category }}">{{ category }}</option>
+							    {% endfor %}
+						</select>
+					</div>				
+				</div>
+			</li>
+			<li>
+				<div class="widget">
+					<div class="widget_title">
+						<a href="#">Miasto</a><img class="widget_hide" /><hr/>
+					</div>
+					<div class="widget_list_item">
+					<select class="filter option-set clearfix"  data-filter-group="city">
+					    <option data-filter-value="" class="selected">Wszystkie</option>
+					    {% for city in cities %}
+					    <option data-filter-value=".{{ city }}">{{ city }}</option>
+					    {% endfor %}
+					</select>
+
+					</div>	
+				</div>
+			</li>
+			<li>
+				<div class="widget">
+					<div class="widget_title">
+						<a href="#">Data rozpoczęcia</a><img class="widget_hide" /><hr/>
+					</div>
+					<div class="widget_list_item">
+						<input style="width:90%;" id="input_filter_data" data-filter-group="datetime" data-filter-value="" type="text" class="datepicker"/>
+					</div>	
+				</div>
+			</li>
+			<li>
+				<div class="widget">
+					<div class="widget_title">
+						<a href="#">Słowo kluczowe</a><img class="widget_hide" /><hr/>
+					</div>
+					<div class="widget_list_item">
+						<input style="width:90%;" id="input_filter_keyword" data-filter-group="keys" data-filter-value="" type="text"/>
+					</div>	
+				</div>
+			</li>
+		</ul>
+	</div>
+	<div class="grid_right">
+		{% for event in events %}
+			<div class="item {{ event.category }} {{ event.place.city }} {{ event.start_date|date:'Y-m-d' }}">
+				<img src="{{ event.miniature.url }}" width="280" height="200"/>
+				<div class="item_description">
+					<a href="{% url zpi_django.events.views.event_detail event.id %}" class="title">Season's Greedings! (YouTube)</a>
+					<div class="short_description" style="height:70px;">
+						Donec pretium nisl sit amet nulla pharetra vulputate. In pellentesque bibendum consequat. Nullam eros diam, suscipit non 
+						Donec pretium nisl sit amet nulla pharetra vulputate. In pellentesque bibendum consequat. Nullam eros diam, suscipit non 
+					</div>
+					<div class="item_data">&nbsp;{{ event.start_date|date:"d E Y" }}&nbsp;</div>
+
+				</div>
+			</div>
+		{% endfor %}
+	</div>
+</div>
+
+{% endblock %}

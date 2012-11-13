@@ -1,0 +1,192 @@
+{% extends "schema_main_page.html" %}
+
+{% block title %}Wystaw ocenę - Coolturalni.pl {% endblock %}
+
+{% block head_extensions %}
+
+
+		
+<link rel="stylesheet" href="{{ MEDIA_URL }}css/jquery-star/jquery.rating.css">
+<link rel="stylesheet" href="{{ MEDIA_URL }}css/event_feedbacks/add_feedback.css">
+
+
+<script src="{{ MEDIA_URL }}js/plugins/jquery-star/jquery.rating.pack.js"></script>
+<script src="{{ MEDIA_URL }}js/plugins/jquery-star/jquery.MetaData.js"></script>
+<script src="{{ MEDIA_URL }}js/event_feedbacks/add_feedback.js"></script>
+
+ 
+<script type="text/javascript">
+
+
+
+	refresh_stars();
+	 $(document).ready(function() {	
+
+		 $('#send').click(function() {	
+		 	add_feedback("{% url zpi_django.event_feedbacks.views.add_feedback_json %}"); 
+		 	refresh_stars();
+			});
+	});	
+
+
+</script> 
+
+
+ <script src="{{ MEDIA_URL }}js/events/events_grid.js"></script>
+{% endblock %}
+
+
+
+{% block container %}
+<div id="container">
+	<div id="center" class="column">
+		<div id="center_place">
+		<p class="header">Wystaw ocenę do wydarzenia {{event.name}}</p>
+			<div id="statistic">
+				<table id="table_statistic">
+					<tr>
+						<td class="label">Atmosfera wydarzenia:</td>
+						<td id="atmosphere_avg">{% autoescape off %}{{ atmosphere_avg }}{% endautoescape %} </td>
+						<td id="atmosphere_number">{{ atmosphere}}</td>
+					</tr>
+					<tr>	
+						<td class="label">Organizacja wydarzenia: </td>
+						<td id="organisation_avg">{% autoescape off %}{{ organisation_avg }}{% endautoescape %}</td>
+						<td id="organisation_number">{{ organisation}}</td>
+					</tr>
+				</table>		
+			
+		  	</div>
+		  	
+		<div id="add_feedback">
+			{% if can_write %}
+				<br/>
+					<h2>Dodaj ocenę:</h2>
+					<form name="rate" id="rate_atmosphere">
+						<table id="table_add_feedback">
+							<tr>
+								<td class="label">Atmosfera wydarzenia:</td>
+								<td>
+									<input name="rate_atmosphere" type="radio" class="star required" value="1">
+									<input name="rate_atmosphere" type="radio" class="star" value="2"/>
+									<input name="rate_atmosphere" type="radio" class="star" value="3"/>
+									<input name="rate_atmosphere" type="radio" class="star" value="4"/>
+									<input name="rate_atmosphere" type="radio" class="star" value="5"/>
+								 </td>
+							</tr>	 
+							<tr>
+								<td class="label">Organizacja wydarzenia:</td>
+								<td>
+									<input name="rate_organisation" type="radio" class="star required" value="1">
+									<input name="rate_organisation" type="radio" class="star" value="2"/>
+									<input name="rate_organisation" type="radio" class="star" value="3"/>
+									<input name="rate_organisation" type="radio" class="star" value="4"/>
+									<input name="rate_organisation" type="radio" class="star" value="5"/>
+								</td>
+							</tr>
+						</table>
+						<br/>		
+						<input type="hidden" id="event_id" value=" {{ event_id }}"></input>
+					    <input type="button" value="Wyślij" id="send" id="send"/>
+					</form>
+					
+				
+			{% else %}
+				 {{error}}	
+			{% endif %}	 
+		</div>	
+		</div>
+	</div>
+<!-- LEFT COLUMN -->
+<div id="left" class="column">
+	<ul id="sortable" style=" list-style-type: none;margin:0;padding:0;">
+		<li>
+			<div class="widget">
+				<div class="widget_title">
+					<a href="#">Kategoria</a><img class="widget_hide" /><hr/>
+				</div>
+				<div class="widget_list_item">
+					<a href="#">Kategoria 1</a><hr/><a href="#">Kategoria 2</a><hr/>
+				</div>				
+			</div>
+		</li>
+		<li>
+			<div class="widget">
+				<div class="widget_title">
+					<a href="#">Miasto</a><img class="widget_hide" /><hr/>
+				</div>
+				<div class="widget_list_item">
+					<a href="#">Miasto 1</a><hr/><a href="#">Miasto 2</a><hr/>
+				</div>	
+			</div>
+		</li>
+	</ul>
+</div>
+<!-- END LEFT COLUMN -->
+<!-- ##################################################### --->
+<!-- RIGHT COLUMN -->
+<div id="right" class="column">
+	<ul id="sortable2" style=" list-style-type: none;margin:0;padding:0;">
+	<li>
+		<!-- WIDGET 1 -->
+		<div class="widget">
+			<div class="widget_title">
+				<a href="#">Data i czas</a><img class="widget_hide" /><hr/>
+			</div>
+			<div class="widget_list_item">
+				<a><b>Rozpoczęcie:</b>
+					<ul class="data">
+						<li>{{ event.start_date|date:"d E Y" }}</li>
+						<li>{{ event.start_date|time }}</li>
+					</ul>
+				</a>
+				<a><b>Zakończenie:</b>
+					<ul class="data">
+						<li>{{ event.end_date|date:"d E Y" }}</li>
+						<li>{{ event.end_date|time }}</li>
+					</ul>
+				</a
+			</div><hr/>
+		</div>
+	</li>
+	<li>
+	<!-- WIDGET 2 -->
+		<div class="widget">
+			<div class="widget_title">
+				<a href="#">Miejsce</a><img class="widget_hide" /><hr/>
+			</div>
+			<div class="widget_list_item">
+			</div><hr/>
+		</div>
+	</li>
+	<li>
+	<!-- WIDGET 3 -->
+		<div class="widget">
+			<div class="widget_title">
+				<a href="#">Bilety</a><img class="widget_hide" /><hr/>
+			</div>
+			<div class="widget_list_item">
+			</div><hr/>
+		</div>
+	</li>
+	<li>
+	<!-- WIDGET 4 -->
+		<div class="widget">
+			<div class="widget_title">
+				<a href="#">Tagi</a><img class="widget_hide" /><hr/>
+			</div>
+			<div class="widget_list_item">
+				<ul class="tag">
+					<li><a>Tag 1</a></li>
+					<li><a>Tag 2</a></li>
+				</ul>
+			</div><hr/>
+		</div>
+	</li>
+	</ul>
+</div>
+<!-- END RIGHT COLUMN -->
+</div>
+{% endblock %}
+
+

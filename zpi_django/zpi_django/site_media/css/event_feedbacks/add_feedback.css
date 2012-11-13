@@ -1,0 +1,56 @@
+.header{
+	text-align:center;
+	font-size:19px !important;
+}
+
+#statistic{
+	width:100%;
+	text-align: center;
+	padding-top:20px;
+
+
+}
+
+#table_statistic{
+	margin: 0 auto;
+}
+
+#add_feedback{
+	text-align: center;
+	font: 1.0em "Helvetica Neue", Helvetica, Arial, sans-serif;
+	color:#7b7b7b;
+}
+
+.label{
+	text-align: left;
+	font: 1.0em "Helvetica Neue", Helvetica, Arial, sans-serif;
+	color:#7b7b7b;
+	padding-right:5px;
+}
+
+
+#add_feedback{
+	text-align:center;
+}
+
+#table_add_feedback{
+	margin: 0 auto;
+}
+
+#widget_header{
+	text-align: center
+	font: 1.2em "Helvetica Neue", Helvetica, Arial, sans-serif;
+	color:#7b7b7b;
+	font-weight:bold;
+}
+
+#organisation_number, #atmosphere_number{
+	text-align: left;
+	font: 0.85em "Helvetica Neue", Helvetica, Arial, sans-serif;
+	color:#7b7b7b;
+}
+
+#feedback_error{
+	font: 0.85em "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+}

@@ -1,0 +1,69 @@
+{% extends "schema_main_page.html" %}
+
+{% block title %}Dodaj wydarzenie - Coolturalni.pl {% endblock %}
+
+{% block head_extensions %}
+<link rel="stylesheet" href="{{ MEDIA_URL }}css/events/autocomplete.css">
+<link rel="stylesheet" href="{{ MEDIA_URL }}css/events/add_event.css">
+<script src="{{ MEDIA_URL }}js/events/data_picker.js"></script>
+<script src="{{ MEDIA_URL }}js/events/next_photo.js"></script>
+<script src="{{ MEDIA_URL }}js/events/start_stop.js"></script>
+{% endblock %}
+
+{% block container %}
+<div id="container">
+<div id="center" class="column">
+	<div id="center_place">
+	<h1>Formularz dodawania wydarzenia</h1>
+	<form enctype="multipart/form-data" method="post">{% csrf_token %}
+		<table id="add_event">
+		    {% for field in add_event_form %}
+					<tr><td><label for="{{ field.name}}">{{ field.label}}: </label></td>
+					<td>{{ field }}</td><td>{{ field.errors }}</td></tr>
+					<tr><td></td><td class="helptext">{{ field.help_text }}</td><td></td></tr>
+			{% endfor %} 
+    
+			<tr><td colspan="3"><br/><hr id="hr_photo"><br/></td></tr>
+			{% for field in add_photo_form %}
+					<tr><td><label for="{{ field.name}}">{{ field.label }}:</label></td>
+					<td>{{ field }}</td><td>{{ field.errors }}</td></tr>
+			{% endfor %} 
+		</table>
+	<button style="float:right;" name="submit" type="submit" id="submit" class="button" tabindex="5">Utwórz wydarzenie</button>
+	<div id="footer"></div>
+	</form>
+	<p class="info">Pola oznaczone gwiazdką(*) są wymagane.</p>
+	<br/>
+	</div>
+</div>
+<!-- LEFT COLUMN -->
+<div id="left" class="column">
+	<ul id="sortable" style=" list-style-type: none;margin:0;padding:0;">
+		<li>
+			<div class="widget">
+				<div class="widget_title">
+					<a href="#">Kategoria</a><img class="widget_hide" /><hr/>
+				</div>
+				<div class="widget_list_item">
+					<a href="#">Kategoria 1</a><hr/><a href="#">Kategoria 2</a><hr/>
+				</div>				
+			</div>
+		</li>
+		<li>
+			<div class="widget">
+				<div class="widget_title">
+					<a href="#">Miasto</a><img class="widget_hide" /><hr/>
+				</div>
+				<div class="widget_list_item">
+					<a href="#">Miasto 1</a><hr/><a href="#">Miasto 2</a><hr/>
+				</div>	
+			</div>
+		</li>
+	</ul>
+</div>
+<!-- END LEFT COLUMN -->
+<!-- ##################################################### --->
+
+</div>
+{% endblock %}
+

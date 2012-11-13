@@ -1,0 +1,59 @@
+{% extends "schema_main_page.html" %}
+
+{% block title %}Dodaj wydarzenie - Coolturalni.pl {% endblock %}
+
+{% block head_extensions %}
+<link rel="stylesheet" href="{{ MEDIA_URL }}css/events/events_grid.css">
+<link rel="Stylesheet" type="text/css" href="{{ MEDIA_URL }}css/isotope/style.css" />
+<script src="{{ MEDIA_URL }}js/plugins/isotope/jquery.isotope.min.js"></script>
+<script src="{{ MEDIA_URL }}js/plugins/isotope/isotope_function.js"></script>
+{% endblock %}
+
+
+{% block container %}
+<div class="grid_container">
+	<div class="grid_left" style="">
+		<ul id="sortable" style=" list-style-type: none;margin:0;padding:0;">
+			<li>
+				<div class="widget">
+					<div class="widget_title">
+						<a href="#">Kategoria</a><img class="widget_hide" /><hr/>
+					</div>
+					<div class="widget_list_item">
+						<ul id="filtr" class="filter option-set" data-filter-group="name">
+							<li><a href="#wszystkie" data-filter-value="">Wszystkie</a><hr/></li>
+							<li><a href="#" data-filter-value="kino">Kino</a><hr/></li>
+							<li><a href="#" data-filter-value=".cinema">Cinema</a><hr/></li>
+						</ul>
+					</div>				
+				</div>
+			</li>
+			<li>
+				<div class="widget">
+					<div class="widget_title">
+						<a href="#">Miasto</a><img class="widget_hide" /><hr/>
+					</div>
+					<div class="widget_list_item">
+						<ul id="filtr" class="filter option-set" data-filter-group="city">
+							<li><a href="#wszystkie" data-filter-value="">Wszystkie</a><hr/></li>
+							<li><a href="#" data-filter-value=".test">Miasto 1</a><hr/></li>
+							<li><a href="#" data-filter-value=".zxc">Miasto 2</a><hr/></li>
+						</ul>
+					</div>	
+				</div>
+			</li>
+		</ul>
+	</div>
+	<div class="grid_right">
+		{% for event in events %}
+			<div class="item {{ event.category }} {{ event.place.city.name }}">
+				<img src="{{ event.miniature}}" width="280" height="200"/>
+				<div class="item_description">
+					<a href="{% url zpi_django.events.views.event_detail event.id %}" class="title">Season's Greedings! (YouTube)</a>
+					<p class="short_description">Donec pretium nisl sit amet nulla pharetra vulputate. In pellentesque bibendum consequat. Nullam eros diam, suscipit non </p>
+				</div>
+			</div>
+		{% endfor %}
+	</div>
+</div>
+{% endblock %}

@@ -1,0 +1,68 @@
+
+ {% load auth_panel %} 
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="pl" lang="pl">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>{% block title %}{% endblock %}</title>
+		<!-- JQUERY User Interface  -->
+		<link rel="stylesheet" href="{{ MEDIA_URL }}js/plugins/jquery-ui/development-bundle/themes/smoothness/jquery.ui.all.css">
+		<script src="{{ MEDIA_URL }}js/plugins/jquery-ui/js/jquery-1.8.2.js"></script>
+		<script src="{{ MEDIA_URL }}js/plugins/jquery-ui/js/jquery-ui-1.9.1.custom.js"></script>
+		<script src="{{ MEDIA_URL }}js/plugins/jquery-ui/development-bundle/ui/jquery.ui.core.js"></script>
+		<script src="{{ MEDIA_URL }}js/plugins/jquery-ui/development-bundle/ui/jquery.ui.widget.js"></script>
+		<script src="{{ MEDIA_URL }}js/plugins/jquery-ui/js/jquery.ui.datepicker-pl.js"></script>
+		<script src="{{ MEDIA_URL }}js/plugins/jquery-ui/development-bundle/ui/jquery.ui.effect-blind.js"></script>
+		<!-- WŁASNE -->
+		<link rel="Stylesheet" type="text/css" href="{{ MEDIA_URL }}css/schema_main_page.css" />
+		<link rel="Stylesheet" type="text/css" href="{{ MEDIA_URL }}css/widget_area.css" />
+		<script src="{{ MEDIA_URL }}js/widget_left.js"></script>
+		<script src="{{ MEDIA_URL }}js/login.js"></script>
+		
+		{% block head_extensions %}{% endblock %}
+	</head>
+	
+	<body>
+		<div class="dark_upper">
+			<div class="logo"> <img src="{{ MEDIA_URL }}images/logo.png" /> </div>
+			<div class="top_menu">
+				<ul class="menu">
+					<li><a href="{% url zpi_django.view.main_page %}">Start</a></li>
+					<li><a href="{% url zpi_django.events.views.show_events %}">Wydarzenia</a></li>
+					<li><a href="#">Wyszukiwarka</a></li>
+					<li><a href="#">Reklama</a></li>
+					<li><a href="#">Kontakt</a></li>
+				</ul>
+			</div>
+			<div class="login_panel">	
+
+				 {% show_auth_panel %}
+
+
+			</div>
+			<div id="footer"></div>
+		</div>	
+	{% block container %}
+	<div id="container">
+		<div id="center" class="column">
+			<div id="center_place"></div>
+		</div>
+		<div id="left" class="column">
+			<div id="widget"></div>
+		</div>
+		<div id="right" class="column">
+			<div style="float:right;" id="widget"></div>
+		</div>
+	</div>
+	{% endblock %}
+	
+	<div id="footer"></div>
+	</body>
+	
+	<script type="text/javascript">
+
+	</script>
+</html>

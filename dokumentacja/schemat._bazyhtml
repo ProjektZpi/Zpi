@@ -1,0 +1,522 @@
+<?xml version='1.0' encoding='ISO-8859-1' standalone='yes'?>
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.1 plus MathML 2.0 plus SVG 1.1//EN' 'http://www.w3.org/2002/04/xhtml-math-svg/xhtml-math-svg.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml' >
+<head>
+<title>Database documentation</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF8"/>
+<style type='text/css'>
+	 #dbs {font-family:Tahoma,Dialog,Sans-Serif;font-size:12px;background:#fff;width:80%;border-collapse:collapse;text-align:left;margin:20px;}
+	 #dbs thead{background:#ddd;}
+	 #dbs th{font-size:12px;font-weight:bold;color:#333;border-bottom:2px solid #333;padding:7px 8px;}
+	 #dbs td{border-bottom:1px solid #ccc;color:#333;padding:5px 8px;white-space: pre;}
+	 td.subpart{background:#ddd}
+	 #dbs tbody tr:hover td{color:#000;background:#fffcea;}
+</style>
+</head>
+
+<body>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'   width='1872' height='926' viewbox='0 0 1872 926' >
+<style type='text/css'>
+  text                { text-rendering: optimizeLegibility; fill:#18191b; font-family: Dialog, Dialog, Arial; font-size:11px; }
+  text.fk             { fill:#ff99ff; }
+  text.pk             { fill:#99ccff; }
+  text.colType        { fill:#a9bdc6; }
+  text.tableTitle     { fill:#000000; }
+  path                { stroke:#817255; stroke-width:1.5; fill:none; }
+  rect.grp            { opacity:0.5; stroke:#c2ab83; stroke-width:1; }
+  rect.table          { fill:#ffffff; stroke:#9ea1a4; stroke-width:0.5; filter:url(#shadow); }
+  line.table          { stroke:#9ea1a4; stroke-width:0.3; }
+  rect.callout        { fill:url(#calloutGradient); stroke:#aea913; stroke-width:0.5; }
+  path.callout        { fill:#f4f1a4; stroke:#aea913; stroke-width:0.5; }
+</style>
+<defs>
+  <pattern id='layoutGradient' patternUnits='userSpaceOnUse' x='0' y='0' width='10' height='10' viewBox='0 0 10 10'>
+    <rect x='0' y='0' width='10' height='10' style='fill:#f7f7f0;' />
+    <line x1='5' y1='10' x2='5' y2='0' style='stroke:#949494;stroke-width:0.5;stroke-dasharray:1,9;'  />
+  </pattern>
+  <radialGradient id='layoutGradientOld' cx='20%' cy='20%' r='25%' fx='10%' fy='0%'>
+	   <stop offset='0%' stop-color='#ffffff' />
+    <stop offset='100%' stop-color='#efefef' />
+  </radialGradient>
+  <linearGradient id='tableHeaderGradient' x1='0%' y1='0%' x2='0%' y2='100%' >
+          <stop offset='0%' stop-color='#f6fafc' stop-opacity='1'/> 
+          <stop offset='50%' stop-color='#e1ebfa' stop-opacity='1'/> 
+          <stop offset='51%' stop-color='#bdd4f1' stop-opacity='1'/> 
+          <stop offset='100%' stop-color='#d6e2f9' stop-opacity='1' /> 
+   </linearGradient>
+  <radialGradient id='calloutGradient' cx='20%' cy='20%' r='100%' fx='10%' fy='10%'>
+	   <stop offset='0%' stop-color='#ffffff' />
+    <stop offset='100%' stop-color='#f4f1a4' />
+  </radialGradient>
+  <filter id='shadow' width='150%' height='150%'> 
+    <feGaussianBlur in='SourceAlpha' stdDeviation='2' result='image1' /> 
+    <feOffset in='image1' result='image2' dx='2' dy='2' />
+    <feComposite in='SourceGraphic' in2='image2' operator='over' /> 
+  </filter>
+  <filter id='emboss'> 
+    <feGaussianBlur in='SourceAlpha' stdDeviation='2' result='blur'/> 
+    <feSpecularLighting in='blur' surfaceScale='-3' style='lighting-color:white' 
+      specularConstant='1' specularExponent='16' result='spec' kernelUnitLength='1' >
+      <feDistantLight azimuth='45' elevation='45' />
+    </feSpecularLighting> 
+    <feComposite in='spec' in2='SourceGraphic' operator='in' result='specOut'/> 
+    <feComposite in='SourceGraphic' in2='specOut' operator='arithmetic' k1='0' k2='1' k3='1' k4='0' result='litPaint'/>  
+  </filter>
+  <filter id='embossAndShadow' filterUnits='userSpaceOnUse' x='0' y='0' width='400' height='120'> 
+     <feGaussianBlur in='SourceAlpha' stdDeviation='3' result='blur'/> 
+     <feOffset in='blur' dx='4' dy='4' result='offsetBlur'/> 
+     <feSpecularLighting in='blur' surfaceScale='5' specularConstant='.75' specularExponent='20' lighting-color='#bbbbbb' result='specOut'>
+        <fePointLight x='-5000' y='-10000' z='20000'/>  
+     </feSpecularLighting> 
+     <feComposite in='specOut' in2='SourceAlpha' operator='in' result='specOut'/> 
+     <feComposite in='SourceGraphic' in2='specOut' operator='arithmetic' k1='0' k2='1' k3='1' k4='0' result='litPaint'/>  
+     <feMerge> 
+         <feMergeNode in='offsetBlur'/> 
+         <feMergeNode in='litPaint'/> 
+     </feMerge> 
+  </filter> 
+  <radialGradient id='legendGradient' fx='5%' fy='5%' r='75%' spreadMethod='pad'>
+          <stop offset='0%' stop-color='#cfd7f6' stop-opacity='1'/> 
+          <stop offset='100%' stop-color='#919dd0' stop-opacity='1' /> 
+   </radialGradient>
+  <pattern id='hintPointerSV' patternUnits='userSpaceOnUse' x='0' y='0' width='13' height='13' viewBox='0 0 13 13' >
+      <path d='M 0,0 Q 7,7,0,13 Q 13,7,13,0' class='callout' />
+  </pattern>
+  <pattern id='hintPointerSE' patternUnits='userSpaceOnUse' x='0' y='0' width='13' height='13' viewBox='0 0 13 13' >
+      <path d='M 0,0 Q 3,7,13,13 Q 7,7,13,0' class='callout' />
+  </pattern>
+  <pattern id='hintPointerNV' patternUnits='userSpaceOnUse' x='0' y='0' width='13' height='13' viewBox='0 0 13 13' >
+      <path d='M 0,13 Q 7,7,0,0 Q 13,7,13,13' class='callout' />
+  </pattern>
+  <pattern id='hintPointerNE' patternUnits='userSpaceOnUse' x='0' y='0' width='13' height='13' viewBox='0 0 13 13' >
+      <path d='M 0,13 Q 3,7,13,0 Q 7,7,13,13' class='callout' />
+  </pattern>
+  <symbol id='pk' overflow='visible' >
+    <g transform='scale(0.85)'>
+     <path style='fill:#e9ad16;stroke:#9c4f15;stroke-width:0.7;stroke-linecap:round;stroke-linejoin:round;filter:url(#emboss);'
+        d='M 9.3678877,3.5695485 C 9.1030218,3.2729386 9.0796382,2.7628519 9.3396185,2.4517097 9.5449651,2.1956495 9.9040386,2.0980533 10.199638,2.2169415 10.533525,2.3415459 10.775153,2.706942 10.750675,3.0842709 10.737029,3.3980003 10.541153,3.699122 10.258248,3.8066067 9.966649,3.9250429 9.6169668,3.8418805 9.4008073,3.6062324 9.3894892,3.5943518 9.3785264,3.582104 9.3678886,3.5695487 z M 11.226617,6.9916004 C 11.888137,6.3548946 12.293488,5.4172188 12.311087,4.442353 12.378144,2.7379364 11.248678,1.0541269 9.7322318,0.44767357 8.3887112,-0.1280313 6.7865012,0.26822889 5.8918395,1.4007929 5.080823,2.3839145 4.9336815,3.8452096 5.3635544,5.101615 L 4.3670905,5.315913 C 4.0664984,5.3682645 4.0967703,5.6316724 4.2574957,5.8208829 L 4.9124,6.5655244 4.1543436,7.2512357 3.2136002,7.2163506 3.1674775,8.5586827 2.0406832,8.5086512 1.5965306,8.9299953 1.5471661,10.179833 0.75616674,10.195223 0.2112857,10.758575 0.15354288,11.735988 0.07199052,12.765553 c 0.36440953,0.238225 0.79006967,0.195492 1.44938278,-0.02675 L 6.3033562,8.1282037 6.8217102,8.6765688 C 6.9985465,8.8799427 7.3003699,8.7497574 7.358381,8.5016252 L 7.4938877,7.5084164 c 0.8537488,0.3985387 1.8303125,0.4711541 2.6851793,0.1427713 0.393927,-0.1407258 0.746858,-0.3701772 1.04755,-0.6595873 z'/>
+     <path d='M 6.8014948,6.3102123 0.15369063,13.024481 0.21560535,12.141962 6.0062342,6.2683782 z'
+        style='fill:#ffe5a5;fill-opacity:1;stroke:#854e31;stroke-width:0.09912433;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:3.00300009'/>
+    </g>
+  </symbol>
+  <symbol id='unq' overflow='visible' >
+    <g transform='scale(0.85)'>
+      <rect style='fill:#e07554;stroke:#7e4d31;stroke-width:0.71934468;stroke-linecap:round;stroke-linejoin:round;'
+         width='2.29' height='8.43' x='7.48' y='-0.76' ry='1.14' transform='matrix(0.701,0.713,-0.727,0.685,0,0)' />
+      <path style='fill:#ffffe2;stroke:#313131;stroke-width:0.8;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;'
+         d='m 26.04,8.64 a 4.13,4.13 0 1 1 -8.26,0 4.13,4.13 0 1 1 8.26,0 z'
+         transform='matrix(1.025,0,0,0.987,-14.690,-3.862)' />
+      <text x='5.4' y='6.6' style='font-size:8px;fill:#7c0909;'>1</text>
+    </g>
+  </symbol>
+  <symbol id='idx' overflow='visible' >
+    <g transform='scale(0.85)'>
+      <rect style='fill:#e07554;stroke:#7e4d31;stroke-width:0.71934468;stroke-linecap:round;stroke-linejoin:round;'
+         width='2.29' height='8.43' x='7.48' y='-0.76' ry='1.14' transform='matrix(0.701,0.713,-0.727,0.685,0,0)' />
+      <path style='fill:#ffffe2;stroke:#313131;stroke-width:0.8;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;'
+         d='m 26.04,8.64 a 4.13,4.13 0 1 1 -8.26,0 4.13,4.13 0 1 1 8.26,0 z'
+         transform='matrix(1.025,0,0,0.987,-14.690,-3.862)' />
+    </g>
+  </symbol>
+  <symbol id='fk' overflow='visible' >
+    <path style='fill:#946d00;stroke:#5c2352;stroke-width:0.46;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;'
+    d='M 12.48,0.33 7.07,0.89 9.067,2.974 0.329,11.731 1.073,12.597 9.811,3.841 11.77,5.78 z' />
+  </symbol>
+  <symbol id='ref' overflow='visible' >
+  <path style='fill:#1877c8;stroke:#29365f;stroke-width:0.4;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;'
+          d='M 0.10,12.70 5.31,12.15 3.40,10.06 11.82,1.32 11.11,0.45 2.68,9.19 0.80,7.24 z'/>
+  </symbol>
+  <marker id='arrow' viewBox='0 0 6 6' refX='0' refY='3' markerUnits='strokeWidth' markerWidth='6' markerHeight='6' orient='auto'>
+    <path d='M 0,0 L 6, 3 L 0,6 z' style='fill:#776c57; stroke-width:0px;' />
+  </marker>
+  <marker id='foot' viewBox='0 0 6 6' refX='6' refY='3' markerUnits='strokeWidth' markerWidth='6' markerHeight='6' orient='auto'>
+    <path d='M 0,3 L 13, 3 z' style='stroke:#776c57;' />
+  </marker>
+</defs>
+
+<!-- ============= Desktop ============= -->
+<rect x='1' y='1' width='1870' height='924' rx='6' ry='6' style='fill:url(#layoutGradient); stroke:#104576; stroke-width:0.5;' />
+
+<!-- ============= Legend ============= -->
+<g transform='translate(10,10)'>
+  <rect x='10' y='10' width='320' height='80' rx='6' ry='6' style='fill:url(#legendGradient);filter:url(#embossAndShadow);'/> 
+  <text x='20' y='30'><tspan style='fill:gray;'>Project</tspan> MySql</text> 
+  <text x='20' y='44'><tspan style='fill:gray;'>Layout</tspan> zpi</text> 
+  <text x='20' y='58'><tspan style='fill:gray;'>Build with DbSchema</tspan></text> 
+  <text x='20' y='76'><tspan style='fill:gray;'>Tip: column and table comments are available as tooltips</tspan></text> 
+  <a xlink:href='http://www.dbschema.com' title='Visit http://www.dbschema.com'> 
+  </a>
+
+</g>
+
+<g transform='translate(0,120)'>
+<!-- ============= Group 'django_content_type' ============= -->
+<rect class='grp' style='fill:#ffffcc;' x='742' y='201' width='583' height='417' rx='7' ry='7'/>
+<text x='751' y='210'>django_content_type</text>
+
+<!-- ============= Group 'auth_user' ============= -->
+<rect class='grp' style='fill:#fff8d6;' x='27' y='201' width='674' height='586' rx='7' ry='7'/>
+<text x='36' y='210'>auth_user</text>
+
+<!-- ============= Group 'events_category' ============= -->
+<rect class='grp' style='fill:#dbe1fe;' x='1379' y='201' width='466' height='430' rx='7' ry='7'/>
+<text x='1388' y='210'>events_category</text>
+
+<!-- ============= Group 'Unreferenced' ============= -->
+<rect class='grp' style='fill:#e8e8ff;' x='742' y='19' width='271' height='118' rx='7' ry='7'/>
+<text x='751' y='28'>Unreferenced</text>
+
+<path transform='translate(6,0)' marker-start='url(#foot)' marker-end='url(#arrow)'    title='group_id_refs_id_3cea63fe auth_group_permissions to auth_group ( group_id -> id )' d='M 1144 247 L 1053,247'  />
+
+<text x='1104' y='243' transform='rotate(0 1104,243)' title='group_id_refs_id_3cea63fe auth_group_permissions to auth_group ( group_id -> id )'>group_id</text><path transform='translate(6,0)' marker-start='url(#foot)' marker-end='url(#arrow)'    title='permission_id_refs_id_5886d21f auth_group_permissions to auth_permission ( permission_id -> id )' d='M 1170 299 L 1170,351'  />
+
+<text x='1177' y='300' transform='rotate(90 1177,300)' title='permission_id_refs_id_5886d21f auth_group_permissions to auth_permission ( permission_id -> id )'>permission_id</text><path transform='translate(6,0)' marker-start='url(#foot)' marker-end='url(#arrow)'    title='content_type_id_refs_id_728de91f auth_permission to django_content_type ( content_type_id -> id )' d='M 1144 377 L 1105,377'  />
+
+<text x='1069' y='373' transform='rotate(0 1069,373)' title='content_type_id_refs_id_728de91f auth_permission to django_content_type ( content_type_id -> id )'>content_type_id</text><path transform='translate(6,0)' marker-start='url(#foot)' marker-end='url(#arrow)'    title='user_id_refs_id_7ceef80f auth_user_groups to auth_user ( user_id -> id )' d='M 1144 520 L 416,520'  />
+
+<text x='1110' y='516' transform='rotate(0 1110,516)' title='user_id_refs_id_7ceef80f auth_user_groups to auth_user ( user_id -> id )'>user_id</text><path transform='translate(6,0)' marker-start='url(#foot)' marker-end='url(#arrow)'    title='group_id_refs_id_f116770 auth_user_groups to auth_group ( group_id -> id )' d='M 1144 533 L 955,533 Q 949,533 949,526 L 949,279 Q 949,273 955,273 L 962,273'  />
+
+<text x='1104' y='529' transform='rotate(0 1104,529)' title='group_id_refs_id_f116770 auth_user_groups to auth_group ( group_id -> id )'>group_id</text><path transform='translate(6,0)' marker-start='url(#foot)' marker-end='url(#arrow)'    title='user_id_refs_id_dfbab7d auth_user_user_permissions to auth_user ( user_id -> id )' d='M 741 273 L 487,273 Q 481,273 481,279 L 481,370 Q 481,377 474,377 L 409,377 Q 403,377 403,383 L 403,390'  />
+
+<text x='707' y='269' transform='rotate(0 707,269)' title='user_id_refs_id_dfbab7d auth_user_user_permissions to auth_user ( user_id -> id )'>user_id</text><path transform='translate(6,0)' marker-start='url(#foot)' marker-end='url(#arrow)'    title='permission_id_refs_id_67e79cb auth_user_user_permissions to auth_permission ( permission_id -> id )' d='M 923 299 L 923,331 Q 923,338 929,338 L 1176,338 Q 1183,338 1183,344 L 1183,351'  />
+
+<text x='930' y='300' transform='rotate(90 930,300)' title='permission_id_refs_id_67e79cb auth_user_user_permissions to auth_permission ( permission_id -> id )'>permission_id</text><path transform='translate(6,0)' marker-start='url(#foot)' marker-end='url(#arrow)'    title='user_id_refs_id_c8665aa django_admin_log to auth_user ( user_id -> id )' d='M 767 364 L 396,364 Q 390,364 390,370 L 390,390'  />
+
+<text x='733' y='360' transform='rotate(0 733,360)' title='user_id_refs_id_c8665aa django_admin_log to auth_user ( user_id -> id )'>user_id</text><path transform='translate(6,0)' marker-start='url(#foot)' marker-end='url(#arrow)'  style='stroke-dasharray:4,2;'  title='content_type_id_refs_id_288599e6 django_admin_log to django_content_type ( content_type_id -> id )' d='M 910 377 L 962,377'  />
+
+<text x='917' y='373' transform='rotate(0 917,373)' title='content_type_id_refs_id_288599e6 django_admin_log to django_content_type ( content_type_id -> id )'>content_type_id</text><path transform='translate(6,0)' marker-start='url(#foot)' marker-end='url(#arrow)'    title='user_id_refs_id_217d4f6c event_comments_eventcomment to auth_user ( user_id -> id )' d='M 468 663 L 409,663 Q 403,663 403,656 L 403,585'  />
+
+<text x='434' y='659' transform='rotate(0 434,659)' title='user_id_refs_id_217d4f6c event_comments_eventcomment to auth_user ( user_id -> id )'>user_id</text><path transform='translate(6,0)' marker-start='url(#foot)' marker-end='url(#arrow)'    title='event_id_refs_id_42f2843b event_comments_eventcomment to events_event ( event_id -> id )' d='M 689 676 L 1397,676 Q 1404,676 1404,669 L 1404,611'  />
+
+<text x='696' y='672' transform='rotate(0 696,672)' title='event_id_refs_id_42f2843b event_comments_eventcomment to events_event ( event_id -> id )'>event_id</text><path transform='translate(6,0)' marker-start='url(#foot)' marker-end='url(#arrow)'    title='user_id_refs_id_2e17e00c event_feedbacks_eventfeedback to auth_user ( user_id -> id )' d='M 260 325 L 279,325 Q 286,325 286,331 L 286,396 Q 286,403 292,403 L 299,403'  />
+
+<text x='267' y='321' transform='rotate(0 267,321)' title='user_id_refs_id_2e17e00c event_feedbacks_eventfeedback to auth_user ( user_id -> id )'>user_id</text><path transform='translate(6,0)' marker-start='url(#foot)' marker-end='url(#arrow)'    title='event_id_refs_id_44518ba5 event_feedbacks_eventfeedback to events_event ( event_id -> id )' d='M 260 312 L 266,312 Q 273,312 273,318 L 273,617 Q 273,624 279,624 L 1410,624 Q 1417,624 1417,617 L 1417,611'  />
+
+<text x='267' y='308' transform='rotate(0 267,308)' title='event_id_refs_id_44518ba5 event_feedbacks_eventfeedback to events_event ( event_id -> id )'>event_id</text><path transform='translate(6,0)' marker-start='url(#foot)' marker-end='url(#arrow)'    title='user_id_refs_id_49ca42bc event_observators_eventobservator to auth_user ( user_id -> id )' d='M 260 676 L 318,676 Q 325,676 325,669 L 325,585'  />
+
+<text x='267' y='672' transform='rotate(0 267,672)' title='user_id_refs_id_49ca42bc event_observators_eventobservator to auth_user ( user_id -> id )'>user_id</text><path transform='translate(6,0)' marker-start='url(#foot)' marker-end='url(#arrow)'    title='event_id_refs_id_5131953d event_observators_eventobservator to events_event ( event_id -> id )' d='M 260 689 L 448,689 Q 455,689 455,682 L 455,643 Q 455,637 461,637 L 1423,637 Q 1430,637 1430,630 L 1430,611'  />
+
+<text x='267' y='685' transform='rotate(0 267,685)' title='event_id_refs_id_5131953d event_observators_eventobservator to events_event ( event_id -> id )'>event_id</text><path transform='translate(6,0)' marker-start='url(#foot)' marker-end='url(#arrow)'    title='place_id_refs_id_47ea0979 events_event to place_place ( place_id -> id )' d='M 1378 494 L 929,494 Q 923,494 923,500 L 923,526 Q 923,533 916,533 L 552,533 Q 546,533 546,526 L 546,507'  />
+
+<text x='1340' y='490' transform='rotate(0 1340,490)' title='place_id_refs_id_47ea0979 events_event to place_place ( place_id -> id )'>place_id</text><path transform='translate(6,0)' marker-start='url(#foot)' marker-end='url(#arrow)'    title='category_id_refs_id_61e9e1f6 events_event to events_category ( category_id -> id )' d='M 1495 416 L 1547,416'  />
+
+<text x='1502' y='412' transform='rotate(0 1502,412)' title='category_id_refs_id_61e9e1f6 events_event to events_category ( category_id -> id )'>category_id</text><path transform='translate(6,0)' marker-start='url(#foot)' marker-end='url(#arrow)'    title='event_id_refs_id_6d6cc46a events_eventphoto to events_event ( event_id -> id )' d='M 1690 468 L 1683,468 Q 1677,468 1677,474 L 1677,474 Q 1677,481 1670,481 L 1495,481'  />
+
+<text x='1651' y='464' transform='rotate(0 1651,464)' title='event_id_refs_id_6d6cc46a events_eventphoto to events_event ( event_id -> id )'>event_id</text><path transform='translate(6,0)' marker-start='url(#foot)' marker-end='url(#arrow)'    title='city_id_refs_id_64c5b004 place_place to cities_province ( city_id -> id )' d='M 468 403 L 435,403 Q 429,403 429,396 L 429,357 Q 429,351 422,351 L 253,351 Q 247,351 247,357 L 247,390'  />
+
+<text x='439' y='399' transform='rotate(0 439,399)' title='city_id_refs_id_64c5b004 place_place to cities_province ( city_id -> id )'>city_id</text><path transform='translate(6,0)' marker-start='url(#foot)' marker-end='url(#arrow)'    title='event_id_refs_id_254828b2 statistics_eventstatistic to events_event ( event_id -> id )' d='M 1547 312 L 1514,312 Q 1508,312 1508,318 L 1508,422 Q 1508,429 1501,429 L 1495,429'  />
+
+<text x='1508' y='308' transform='rotate(0 1508,308)' title='event_id_refs_id_254828b2 statistics_eventstatistic to events_event ( event_id -> id )'>event_id</text><path transform='translate(6,0)' marker-start='url(#foot)' marker-end='url(#arrow)'    title='event_id_refs_id_53ce1672 tags_eventtag to events_event ( event_id -> id )' d='M 1417 338 L 1417,390'  />
+
+<text x='1424' y='339' transform='rotate(90 1424,339)' title='event_id_refs_id_53ce1672 tags_eventtag to events_event ( event_id -> id )'>event_id</text><path transform='translate(6,0)' marker-start='url(#foot)' marker-end='url(#arrow)'    title='user_id_refs_id_21d7d732 user_profile_userprofile to auth_user ( user_id -> id )' d='M 325 338 L 325,390'  />
+
+<text x='332' y='339' transform='rotate(90 332,339)' title='user_id_refs_id_21d7d732 user_profile_userprofile to auth_user ( user_id -> id )'>user_id</text><path transform='translate(6,0)' marker-start='url(#foot)' marker-end='url(#arrow)'    title='province_id_refs_id_1ede5b30 user_profile_userprofile to cities_province ( province_id -> id )' d='M 338 338 L 338,370 Q 338,377 331,377 L 240,377 Q 234,377 234,383 L 234,390'  />
+
+<text x='345' y='339' transform='rotate(90 345,339)' title='province_id_refs_id_1ede5b30 user_profile_userprofile to cities_province ( province_id -> id )'>province_id</text><!-- ============= Table 'auth_group' ============= -->
+<rect class='table' x='975' y='228' width='78' height='65' rx='6' ry='6' />
+<path d='M 975.50 247.00 L 975.50 234.50 Q 975.50 228.50 981.50 228.50 L 1046.50 228.50 Q 1052.50 228.50 1052.50 234.50 L 1052.50 247.00 L975.50 247.00 ' style='fill:url(#tableHeaderGradient); stroke:none;' />
+<line class='table' x1='975' y1='247' x2='1053' y2='247'/>
+<a xlink:href='#auth_group' title='zpi.auth_group' ><text x='982' y='240' class='tableTitle'>auth_group</text></a>
+  <a xlink:href='#id' title='Primary Key  ( id ) '><use id='pk' x='977' y='258' xlink:href='#pk'/></a>
+<a xlink:href='#id' title='INT not null '><text x='991' y='266' class='pk'>id</text></a>
+<a xlink:href='#id' title='Referred by auth_group_permissions ( group_id -> id ) Referred by auth_user_groups ( group_id -> id ) '><use id='ref' x='1040' y='256' xlink:href='#ref'/></a>
+  <a xlink:href='#name' title='Unique Index  ( name ) '><use id='unq' x='977' y='271' xlink:href='#unq'/></a>
+<a xlink:href='#name' title='VARCHAR&#040; 80 &#041; not null '><text x='991' y='279' >name</text></a>
+
+<!-- ============= Table 'auth_group_permissions' ============= -->
+<rect class='table' x='1157' y='215' width='156' height='78' rx='6' ry='6' />
+<path d='M 1157.50 234.00 L 1157.50 221.50 Q 1157.50 215.50 1163.50 215.50 L 1306.50 215.50 Q 1312.50 215.50 1312.50 221.50 L 1312.50 234.00 L1157.50 234.00 ' style='fill:url(#tableHeaderGradient); stroke:none;' />
+<line class='table' x1='1157' y1='234' x2='1313' y2='234'/>
+<a xlink:href='#auth_group_permissions' title='zpi.auth_group_permissions' ><text x='1165' y='227' class='tableTitle'>auth_group_permissions</text></a>
+  <a xlink:href='#id' title='Primary Key  ( id ) '><use id='pk' x='1159' y='245' xlink:href='#pk'/></a>
+<a xlink:href='#id' title='INT not null '><text x='1173' y='253' class='pk'>id</text></a>
+  <a xlink:href='#group_id' title='Unique Index  ( group_id, permission_id ) Index  ( group_id ) '><use id='idx' x='1159' y='258' xlink:href='#idx'/></a>
+<a xlink:href='#group_id' title='INT not null '><text x='1173' y='266' class='fk'>group_id</text></a>
+<a xlink:href='#group_id' title='References auth_group ( group_id -> id ) '><use id='fk' x='1300' y='256' xlink:href='#fk'/></a>
+  <a xlink:href='#permission_id' title='Unique Index  ( group_id, permission_id ) Index  ( permission_id ) '><use id='idx' x='1159' y='271' xlink:href='#idx'/></a>
+<a xlink:href='#permission_id' title='INT not null '><text x='1173' y='279' class='fk'>permission_id</text></a>
+<a xlink:href='#permission_id' title='References auth_permission ( permission_id -> id ) '><use id='fk' x='1300' y='269' xlink:href='#fk'/></a>
+
+<!-- ============= Table 'auth_permission' ============= -->
+<rect class='table' x='1157' y='358' width='117' height='91' rx='6' ry='6' />
+<path d='M 1157.50 377.00 L 1157.50 364.50 Q 1157.50 358.50 1163.50 358.50 L 1267.50 358.50 Q 1273.50 358.50 1273.50 364.50 L 1273.50 377.00 L1157.50 377.00 ' style='fill:url(#tableHeaderGradient); stroke:none;' />
+<line class='table' x1='1157' y1='377' x2='1274' y2='377'/>
+<a xlink:href='#auth_permission' title='zpi.auth_permission' ><text x='1168' y='370' class='tableTitle'>auth_permission</text></a>
+  <a xlink:href='#id' title='Primary Key  ( id ) '><use id='pk' x='1159' y='388' xlink:href='#pk'/></a>
+<a xlink:href='#id' title='INT not null '><text x='1173' y='396' class='pk'>id</text></a>
+<a xlink:href='#id' title='Referred by auth_group_permissions ( permission_id -> id ) Referred by auth_user_user_permissions ( permission_id -> id ) '><use id='ref' x='1261' y='386' xlink:href='#ref'/></a>
+  <a xlink:href='#name' title='VARCHAR&#040; 50 &#041; not null '><text x='1173' y='409' >name</text></a>
+  <a xlink:href='#content_type_id' title='Unique Index  ( content_type_id, codename ) Index  ( content_type_id ) '><use id='idx' x='1159' y='414' xlink:href='#idx'/></a>
+<a xlink:href='#content_type_id' title='INT not null '><text x='1173' y='422' class='fk'>content_type_id</text></a>
+<a xlink:href='#content_type_id' title='References django_content_type ( content_type_id -> id ) '><use id='fk' x='1261' y='412' xlink:href='#fk'/></a>
+  <a xlink:href='#codename' title='Unique Index  ( content_type_id, codename ) '><use id='unq' x='1159' y='427' xlink:href='#unq'/></a>
+<a xlink:href='#codename' title='VARCHAR&#040; 100 &#041; not null '><text x='1173' y='435' >codename</text></a>
+
+<!-- ============= Table 'auth_user' ============= -->
+<rect class='table' x='312' y='397' width='104' height='182' rx='6' ry='6' />
+<path d='M 312.50 416.00 L 312.50 403.50 Q 312.50 397.50 318.50 397.50 L 409.50 397.50 Q 415.50 397.50 415.50 403.50 L 415.50 416.00 L312.50 416.00 ' style='fill:url(#tableHeaderGradient); stroke:none;' />
+<line class='table' x1='312' y1='416' x2='416' y2='416'/>
+<a xlink:href='#auth_user' title='zpi.auth_user' ><text x='336' y='409' class='tableTitle'>auth_user</text></a>
+  <a xlink:href='#id' title='Primary Key  ( id ) '><use id='pk' x='314' y='427' xlink:href='#pk'/></a>
+<a xlink:href='#id' title='INT not null '><text x='328' y='435' class='pk'>id</text></a>
+<a xlink:href='#id' title='Referred by auth_user_groups ( user_id -> id ) Referred by auth_user_user_permissions ( user_id -> id ) Referred by django_admin_log ( user_id -> id ) Referred by event_comments_eventcomment ( user_id -> id ) Referred by event_feedbacks_eventfeedback ( user_id -> id ) Referred by event_observators_eventobservator ( user_id -> id ) Referred by user_profile_userprofile ( user_id -> id ) '><use id='ref' x='403' y='425' xlink:href='#ref'/></a>
+  <a xlink:href='#username' title='Unique Index  ( username ) '><use id='unq' x='314' y='440' xlink:href='#unq'/></a>
+<a xlink:href='#username' title='VARCHAR&#040; 30 &#041; not null '><text x='328' y='448' >username</text></a>
+  <a xlink:href='#first_name' title='VARCHAR&#040; 30 &#041; not null '><text x='328' y='461' >first_name</text></a>
+  <a xlink:href='#last_name' title='VARCHAR&#040; 30 &#041; not null '><text x='328' y='474' >last_name</text></a>
+  <a xlink:href='#email' title='VARCHAR&#040; 75 &#041; not null '><text x='328' y='487' >email</text></a>
+  <a xlink:href='#password' title='VARCHAR&#040; 128 &#041; not null '><text x='328' y='500' >password</text></a>
+  <a xlink:href='#is_staff' title='BIT not null '><text x='328' y='513' >is_staff</text></a>
+  <a xlink:href='#is_active' title='BIT not null '><text x='328' y='526' >is_active</text></a>
+  <a xlink:href='#is_superuser' title='BIT not null '><text x='328' y='539' >is_superuser</text></a>
+  <a xlink:href='#last_login' title='DATETIME not null '><text x='328' y='552' >last_login</text></a>
+  <a xlink:href='#date_joined' title='DATETIME not null '><text x='328' y='565' >date_joined</text></a>
+
+<!-- ============= Table 'auth_user_groups' ============= -->
+<rect class='table' x='1157' y='514' width='117' height='78' rx='6' ry='6' />
+<path d='M 1157.50 533.00 L 1157.50 520.50 Q 1157.50 514.50 1163.50 514.50 L 1267.50 514.50 Q 1273.50 514.50 1273.50 520.50 L 1273.50 533.00 L1157.50 533.00 ' style='fill:url(#tableHeaderGradient); stroke:none;' />
+<line class='table' x1='1157' y1='533' x2='1274' y2='533'/>
+<a xlink:href='#auth_user_groups' title='zpi.auth_user_groups' ><text x='1164' y='526' class='tableTitle'>auth_user_groups</text></a>
+  <a xlink:href='#id' title='Primary Key  ( id ) '><use id='pk' x='1159' y='544' xlink:href='#pk'/></a>
+<a xlink:href='#id' title='INT not null '><text x='1173' y='552' class='pk'>id</text></a>
+  <a xlink:href='#user_id' title='Unique Index  ( user_id, group_id ) Index  ( user_id ) '><use id='idx' x='1159' y='557' xlink:href='#idx'/></a>
+<a xlink:href='#user_id' title='INT not null '><text x='1173' y='565' class='fk'>user_id</text></a>
+<a xlink:href='#user_id' title='References auth_user ( user_id -> id ) '><use id='fk' x='1261' y='555' xlink:href='#fk'/></a>
+  <a xlink:href='#group_id' title='Unique Index  ( user_id, group_id ) Index  ( group_id ) '><use id='idx' x='1159' y='570' xlink:href='#idx'/></a>
+<a xlink:href='#group_id' title='INT not null '><text x='1173' y='578' class='fk'>group_id</text></a>
+<a xlink:href='#group_id' title='References auth_group ( group_id -> id ) '><use id='fk' x='1261' y='568' xlink:href='#fk'/></a>
+
+<!-- ============= Table 'auth_user_user_permissions' ============= -->
+<rect class='table' x='754' y='215' width='182' height='78' rx='6' ry='6' />
+<path d='M 754.50 234.00 L 754.50 221.50 Q 754.50 215.50 760.50 215.50 L 929.50 215.50 Q 935.50 215.50 935.50 221.50 L 935.50 234.00 L754.50 234.00 ' style='fill:url(#tableHeaderGradient); stroke:none;' />
+<line class='table' x1='754' y1='234' x2='936' y2='234'/>
+<a xlink:href='#auth_user_user_permissions' title='zpi.auth_user_user_permissions' ><text x='762' y='227' class='tableTitle'>auth_user_user_permissions</text></a>
+  <a xlink:href='#id' title='Primary Key  ( id ) '><use id='pk' x='756' y='245' xlink:href='#pk'/></a>
+<a xlink:href='#id' title='INT not null '><text x='770' y='253' class='pk'>id</text></a>
+  <a xlink:href='#user_id' title='Unique Index  ( user_id, permission_id ) Index  ( user_id ) '><use id='idx' x='756' y='258' xlink:href='#idx'/></a>
+<a xlink:href='#user_id' title='INT not null '><text x='770' y='266' class='fk'>user_id</text></a>
+<a xlink:href='#user_id' title='References auth_user ( user_id -> id ) '><use id='fk' x='923' y='256' xlink:href='#fk'/></a>
+  <a xlink:href='#permission_id' title='Unique Index  ( user_id, permission_id ) Index  ( permission_id ) '><use id='idx' x='756' y='271' xlink:href='#idx'/></a>
+<a xlink:href='#permission_id' title='INT not null '><text x='770' y='279' class='fk'>permission_id</text></a>
+<a xlink:href='#permission_id' title='References auth_permission ( permission_id -> id ) '><use id='fk' x='923' y='269' xlink:href='#fk'/></a>
+
+<!-- ============= Table 'cities_province' ============= -->
+<rect class='table' x='156' y='397' width='104' height='65' rx='6' ry='6' />
+<path d='M 156.50 416.00 L 156.50 403.50 Q 156.50 397.50 162.50 397.50 L 253.50 397.50 Q 259.50 397.50 259.50 403.50 L 259.50 416.00 L156.50 416.00 ' style='fill:url(#tableHeaderGradient); stroke:none;' />
+<line class='table' x1='156' y1='416' x2='260' y2='416'/>
+<a xlink:href='#cities_province' title='zpi.cities_province' ><text x='166' y='409' class='tableTitle'>cities_province</text></a>
+  <a xlink:href='#id' title='Primary Key  ( id ) '><use id='pk' x='158' y='427' xlink:href='#pk'/></a>
+<a xlink:href='#id' title='INT not null '><text x='172' y='435' class='pk'>id</text></a>
+<a xlink:href='#id' title='Referred by place_place ( city_id -> id ) Referred by user_profile_userprofile ( province_id -> id ) '><use id='ref' x='247' y='425' xlink:href='#ref'/></a>
+  <a xlink:href='#name' title='VARCHAR&#040; 50 &#041; not null '><text x='172' y='448' >name</text></a>
+
+<!-- ============= Table 'django_admin_log' ============= -->
+<rect class='table' x='780' y='358' width='130' height='143' rx='6' ry='6' />
+<path d='M 780.50 377.00 L 780.50 364.50 Q 780.50 358.50 786.50 358.50 L 903.50 358.50 Q 909.50 358.50 909.50 364.50 L 909.50 377.00 L780.50 377.00 ' style='fill:url(#tableHeaderGradient); stroke:none;' />
+<line class='table' x1='780' y1='377' x2='910' y2='377'/>
+<a xlink:href='#django_admin_log' title='zpi.django_admin_log' ><text x='795' y='370' class='tableTitle'>django_admin_log</text></a>
+  <a xlink:href='#id' title='Primary Key  ( id ) '><use id='pk' x='782' y='388' xlink:href='#pk'/></a>
+<a xlink:href='#id' title='INT not null '><text x='796' y='396' class='pk'>id</text></a>
+  <a xlink:href='#action_time' title='DATETIME not null '><text x='796' y='409' >action_time</text></a>
+  <a xlink:href='#user_id' title='Index  ( user_id ) '><use id='idx' x='782' y='414' xlink:href='#idx'/></a>
+<a xlink:href='#user_id' title='INT not null '><text x='796' y='422' class='fk'>user_id</text></a>
+<a xlink:href='#user_id' title='References auth_user ( user_id -> id ) '><use id='fk' x='897' y='412' xlink:href='#fk'/></a>
+  <a xlink:href='#content_type_id' title='Index  ( content_type_id ) '><use id='idx' x='782' y='427' xlink:href='#idx'/></a>
+<a xlink:href='#content_type_id' title='INT '><text x='796' y='435' class='fk'>content_type_id</text></a>
+<a xlink:href='#content_type_id' title='References django_content_type ( content_type_id -> id ) '><use id='fk' x='897' y='425' xlink:href='#fk'/></a>
+  <a xlink:href='#object_id' title='LONGTEXT '><text x='796' y='448' >object_id</text></a>
+  <a xlink:href='#object_repr' title='VARCHAR&#040; 200 &#041; not null '><text x='796' y='461' >object_repr</text></a>
+  <a xlink:href='#action_flag' title='SMALLINT not null '><text x='796' y='474' >action_flag</text></a>
+  <a xlink:href='#change_message' title='LONGTEXT not null '><text x='796' y='487' >change_message</text></a>
+
+<!-- ============= Table 'django_content_type' ============= -->
+<rect class='table' x='975' y='358' width='130' height='91' rx='6' ry='6' />
+<path d='M 975.50 377.00 L 975.50 364.50 Q 975.50 358.50 981.50 358.50 L 1098.50 358.50 Q 1104.50 358.50 1104.50 364.50 L 1104.50 377.00 L975.50 377.00 ' style='fill:url(#tableHeaderGradient); stroke:none;' />
+<line class='table' x1='975' y1='377' x2='1105' y2='377'/>
+<a xlink:href='#django_content_type' title='zpi.django_content_type' ><text x='982' y='370' class='tableTitle'>django_content_type</text></a>
+  <a xlink:href='#id' title='Primary Key  ( id ) '><use id='pk' x='977' y='388' xlink:href='#pk'/></a>
+<a xlink:href='#id' title='INT not null '><text x='991' y='396' class='pk'>id</text></a>
+<a xlink:href='#id' title='Referred by auth_permission ( content_type_id -> id ) Referred by django_admin_log ( content_type_id -> id ) '><use id='ref' x='1092' y='386' xlink:href='#ref'/></a>
+  <a xlink:href='#name' title='VARCHAR&#040; 100 &#041; not null '><text x='991' y='409' >name</text></a>
+  <a xlink:href='#app_label' title='Unique Index  ( app_label, model ) '><use id='unq' x='977' y='414' xlink:href='#unq'/></a>
+<a xlink:href='#app_label' title='VARCHAR&#040; 100 &#041; not null '><text x='991' y='422' >app_label</text></a>
+  <a xlink:href='#model' title='Unique Index  ( app_label, model ) '><use id='unq' x='977' y='427' xlink:href='#unq'/></a>
+<a xlink:href='#model' title='VARCHAR&#040; 100 &#041; not null '><text x='991' y='435' >model</text></a>
+
+<!-- ============= Table 'django_session' ============= -->
+<rect class='table' x='897' y='33' width='104' height='78' rx='6' ry='6' />
+<path d='M 897.50 52.00 L 897.50 39.50 Q 897.50 33.50 903.50 33.50 L 994.50 33.50 Q 1000.50 33.50 1000.50 39.50 L 1000.50 52.00 L897.50 52.00 ' style='fill:url(#tableHeaderGradient); stroke:none;' />
+<line class='table' x1='897' y1='52' x2='1001' y2='52'/>
+<a xlink:href='#django_session' title='zpi.django_session' ><text x='905' y='45' class='tableTitle'>django_session</text></a>
+  <a xlink:href='#session_key' title='Primary Key  ( session_key ) '><use id='pk' x='899' y='63' xlink:href='#pk'/></a>
+<a xlink:href='#session_key' title='VARCHAR&#040; 40 &#041; not null '><text x='913' y='71' class='pk'>session_key</text></a>
+  <a xlink:href='#session_data' title='LONGTEXT not null '><text x='913' y='84' >session_data</text></a>
+  <a xlink:href='#expire_date' title='Index  ( expire_date ) '><use id='idx' x='899' y='89' xlink:href='#idx'/></a>
+<a xlink:href='#expire_date' title='DATETIME not null '><text x='913' y='97' >expire_date</text></a>
+
+<!-- ============= Table 'django_site' ============= -->
+<rect class='table' x='754' y='33' width='78' height='78' rx='6' ry='6' />
+<path d='M 754.50 52.00 L 754.50 39.50 Q 754.50 33.50 760.50 33.50 L 825.50 33.50 Q 831.50 33.50 831.50 39.50 L 831.50 52.00 L754.50 52.00 ' style='fill:url(#tableHeaderGradient); stroke:none;' />
+<line class='table' x1='754' y1='52' x2='832' y2='52'/>
+<a xlink:href='#django_site' title='zpi.django_site' ><text x='761' y='45' class='tableTitle'>django_site</text></a>
+  <a xlink:href='#id' title='Primary Key  ( id ) '><use id='pk' x='756' y='63' xlink:href='#pk'/></a>
+<a xlink:href='#id' title='INT not null '><text x='770' y='71' class='pk'>id</text></a>
+  <a xlink:href='#domain' title='VARCHAR&#040; 100 &#041; not null '><text x='770' y='84' >domain</text></a>
+  <a xlink:href='#name' title='VARCHAR&#040; 50 &#041; not null '><text x='770' y='97' >name</text></a>
+
+<!-- ============= Table 'event_comments_eventcomment' ============= -->
+<rect class='table' x='481' y='657' width='208' height='104' rx='6' ry='6' />
+<path d='M 481.50 676.00 L 481.50 663.50 Q 481.50 657.50 487.50 657.50 L 682.50 657.50 Q 688.50 657.50 688.50 663.50 L 688.50 676.00 L481.50 676.00 ' style='fill:url(#tableHeaderGradient); stroke:none;' />
+<line class='table' x1='481' y1='676' x2='689' y2='676'/>
+<a xlink:href='#event_comments_eventcomment' title='zpi.event_comments_eventcomment' ><text x='491' y='669' class='tableTitle'>event_comments_eventcomment</text></a>
+  <a xlink:href='#id' title='Primary Key  ( id ) '><use id='pk' x='483' y='687' xlink:href='#pk'/></a>
+<a xlink:href='#id' title='INT not null '><text x='497' y='695' class='pk'>id</text></a>
+  <a xlink:href='#user_id' title='Unique Index  ( user_id ) '><use id='unq' x='483' y='700' xlink:href='#unq'/></a>
+<a xlink:href='#user_id' title='INT not null '><text x='497' y='708' class='fk'>user_id</text></a>
+<a xlink:href='#user_id' title='References auth_user ( user_id -> id ) '><use id='fk' x='676' y='698' xlink:href='#fk'/></a>
+  <a xlink:href='#event_id' title='Index  ( event_id ) '><use id='idx' x='483' y='713' xlink:href='#idx'/></a>
+<a xlink:href='#event_id' title='INT not null '><text x='497' y='721' class='fk'>event_id</text></a>
+<a xlink:href='#event_id' title='References events_event ( event_id -> id ) '><use id='fk' x='676' y='711' xlink:href='#fk'/></a>
+  <a xlink:href='#comment' title='LONGTEXT not null '><text x='497' y='734' >comment</text></a>
+  <a xlink:href='#date' title='DATETIME not null '><text x='497' y='747' >date</text></a>
+
+<!-- ============= Table 'event_feedbacks_eventfeedback' ============= -->
+<rect class='table' x='65' y='215' width='195' height='117' rx='6' ry='6' />
+<path d='M 65.50 234.00 L 65.50 221.50 Q 65.50 215.50 71.50 215.50 L 253.50 215.50 Q 259.50 215.50 259.50 221.50 L 259.50 234.00 L65.50 234.00 ' style='fill:url(#tableHeaderGradient); stroke:none;' />
+<line class='table' x1='65' y1='234' x2='260' y2='234'/>
+<a xlink:href='#event_feedbacks_eventfeedback' title='zpi.event_feedbacks_eventfeedback' ><text x='71' y='227' class='tableTitle'>event_feedbacks_eventfeedback</text></a>
+  <a xlink:href='#id' title='Primary Key  ( id ) '><use id='pk' x='67' y='245' xlink:href='#pk'/></a>
+<a xlink:href='#id' title='INT not null '><text x='81' y='253' class='pk'>id</text></a>
+  <a xlink:href='#user_id' title='Unique Index  ( user_id ) '><use id='unq' x='67' y='258' xlink:href='#unq'/></a>
+<a xlink:href='#user_id' title='INT not null '><text x='81' y='266' class='fk'>user_id</text></a>
+<a xlink:href='#user_id' title='References auth_user ( user_id -> id ) '><use id='fk' x='247' y='256' xlink:href='#fk'/></a>
+  <a xlink:href='#event_id' title='Index  ( event_id ) '><use id='idx' x='67' y='271' xlink:href='#idx'/></a>
+<a xlink:href='#event_id' title='INT not null '><text x='81' y='279' class='fk'>event_id</text></a>
+<a xlink:href='#event_id' title='References events_event ( event_id -> id ) '><use id='fk' x='247' y='269' xlink:href='#fk'/></a>
+  <a xlink:href='#atmosphere' title='INT not null '><text x='81' y='292' >atmosphere</text></a>
+  <a xlink:href='#organisation' title='INT not null '><text x='81' y='305' >organisation</text></a>
+  <a xlink:href='#date' title='DATETIME not null '><text x='81' y='318' >date</text></a>
+
+<!-- ============= Table 'event_observators_eventobservator' ============= -->
+<rect class='table' x='39' y='657' width='221' height='78' rx='6' ry='6' />
+<path d='M 39.50 676.00 L 39.50 663.50 Q 39.50 657.50 45.50 657.50 L 253.50 657.50 Q 259.50 657.50 259.50 663.50 L 259.50 676.00 L39.50 676.00 ' style='fill:url(#tableHeaderGradient); stroke:none;' />
+<line class='table' x1='39' y1='676' x2='260' y2='676'/>
+<a xlink:href='#event_observators_eventobservator' title='zpi.event_observators_eventobservator' ><text x='48' y='669' class='tableTitle'>event_observators_eventobservator</text></a>
+  <a xlink:href='#id' title='Primary Key  ( id ) '><use id='pk' x='41' y='687' xlink:href='#pk'/></a>
+<a xlink:href='#id' title='INT not null '><text x='55' y='695' class='pk'>id</text></a>
+  <a xlink:href='#user_id' title='Unique Index  ( user_id ) '><use id='unq' x='41' y='700' xlink:href='#unq'/></a>
+<a xlink:href='#user_id' title='INT not null '><text x='55' y='708' class='fk'>user_id</text></a>
+<a xlink:href='#user_id' title='References auth_user ( user_id -> id ) '><use id='fk' x='247' y='698' xlink:href='#fk'/></a>
+  <a xlink:href='#event_id' title='Index  ( event_id ) '><use id='idx' x='41' y='713' xlink:href='#idx'/></a>
+<a xlink:href='#event_id' title='INT not null '><text x='55' y='721' class='fk'>event_id</text></a>
+<a xlink:href='#event_id' title='References events_event ( event_id -> id ) '><use id='fk' x='247' y='711' xlink:href='#fk'/></a>
+
+<!-- ============= Table 'events_category' ============= -->
+<rect class='table' x='1560' y='397' width='104' height='65' rx='6' ry='6' />
+<path d='M 1560.50 416.00 L 1560.50 403.50 Q 1560.50 397.50 1566.50 397.50 L 1657.50 397.50 Q 1663.50 397.50 1663.50 403.50 L 1663.50 416.00 L1560.50 416.00 ' style='fill:url(#tableHeaderGradient); stroke:none;' />
+<line class='table' x1='1560' y1='416' x2='1664' y2='416'/>
+<a xlink:href='#events_category' title='zpi.events_category' ><text x='1566' y='409' class='tableTitle'>events_category</text></a>
+  <a xlink:href='#id' title='Primary Key  ( id ) '><use id='pk' x='1562' y='427' xlink:href='#pk'/></a>
+<a xlink:href='#id' title='INT not null '><text x='1576' y='435' class='pk'>id</text></a>
+<a xlink:href='#id' title='Referred by events_event ( category_id -> id ) '><use id='ref' x='1651' y='425' xlink:href='#ref'/></a>
+  <a xlink:href='#name' title='VARCHAR&#040; 50 &#041; not null '><text x='1576' y='448' >name</text></a>
+
+<!-- ============= Table 'events_event' ============= -->
+<rect class='table' x='1391' y='397' width='104' height='208' rx='6' ry='6' />
+<path d='M 1391.50 416.00 L 1391.50 403.50 Q 1391.50 397.50 1397.50 397.50 L 1488.50 397.50 Q 1494.50 397.50 1494.50 403.50 L 1494.50 416.00 L1391.50 416.00 ' style='fill:url(#tableHeaderGradient); stroke:none;' />
+<line class='table' x1='1391' y1='416' x2='1495' y2='416'/>
+<a xlink:href='#events_event' title='zpi.events_event' ><text x='1405' y='409' class='tableTitle'>events_event</text></a>
+  <a xlink:href='#id' title='Primary Key  ( id ) '><use id='pk' x='1393' y='427' xlink:href='#pk'/></a>
+<a xlink:href='#id' title='INT not null '><text x='1407' y='435' class='pk'>id</text></a>
+<a xlink:href='#id' title='Referred by event_comments_eventcomment ( event_id -> id ) Referred by event_feedbacks_eventfeedback ( event_id -> id ) Referred by event_observators_eventobservator ( event_id -> id ) Referred by events_eventphoto ( event_id -> id ) Referred by statistics_eventstatistic ( event_id -> id ) Referred by tags_eventtag ( event_id -> id ) '><use id='ref' x='1482' y='425' xlink:href='#ref'/></a>
+  <a xlink:href='#name' title='VARCHAR&#040; 200 &#041; not null '><text x='1407' y='448' >name</text></a>
+  <a xlink:href='#category_id' title='Index  ( category_id ) '><use id='idx' x='1393' y='453' xlink:href='#idx'/></a>
+<a xlink:href='#category_id' title='INT not null '><text x='1407' y='461' class='fk'>category_id</text></a>
+<a xlink:href='#category_id' title='References events_category ( category_id -> id ) '><use id='fk' x='1482' y='451' xlink:href='#fk'/></a>
+  <a xlink:href='#miniature' title='VARCHAR&#040; 100 &#041; not null '><text x='1407' y='474' >miniature</text></a>
+  <a xlink:href='#start_date' title='DATETIME not null '><text x='1407' y='487' >start_date</text></a>
+  <a xlink:href='#end_date' title='DATETIME not null '><text x='1407' y='500' >end_date</text></a>
+  <a xlink:href='#place_id' title='Index  ( place_id ) '><use id='idx' x='1393' y='505' xlink:href='#idx'/></a>
+<a xlink:href='#place_id' title='INT not null '><text x='1407' y='513' class='fk'>place_id</text></a>
+<a xlink:href='#place_id' title='References place_place ( place_id -> id ) '><use id='fk' x='1482' y='503' xlink:href='#fk'/></a>
+  <a xlink:href='#tickets' title='LONGTEXT not null '><text x='1407' y='526' >tickets</text></a>
+  <a xlink:href='#introduction' title='LONGTEXT not null '><text x='1407' y='539' >introduction</text></a>
+  <a xlink:href='#description' title='LONGTEXT not null '><text x='1407' y='552' >description</text></a>
+  <a xlink:href='#period' title='VARCHAR&#040; 20 &#041; not null '><text x='1407' y='565' >period</text></a>
+  <a xlink:href='#tags' title='LONGTEXT not null '><text x='1407' y='578' >tags</text></a>
+  <a xlink:href='#own_page' title='VARCHAR&#040; 200 &#041; not null '><text x='1407' y='591' >own_page</text></a>
+
+<!-- ============= Table 'events_eventphoto' ============= -->
+<rect class='table' x='1703' y='397' width='130' height='91' rx='6' ry='6' />
+<path d='M 1703.50 416.00 L 1703.50 403.50 Q 1703.50 397.50 1709.50 397.50 L 1826.50 397.50 Q 1832.50 397.50 1832.50 403.50 L 1832.50 416.00 L1703.50 416.00 ' style='fill:url(#tableHeaderGradient); stroke:none;' />
+<line class='table' x1='1703' y1='416' x2='1833' y2='416'/>
+<a xlink:href='#events_eventphoto' title='zpi.events_eventphoto' ><text x='1714' y='409' class='tableTitle'>events_eventphoto</text></a>
+  <a xlink:href='#id' title='Primary Key  ( id ) '><use id='pk' x='1705' y='427' xlink:href='#pk'/></a>
+<a xlink:href='#id' title='INT not null '><text x='1719' y='435' class='pk'>id</text></a>
+  <a xlink:href='#event_id' title='Index  ( event_id ) '><use id='idx' x='1705' y='440' xlink:href='#idx'/></a>
+<a xlink:href='#event_id' title='INT not null '><text x='1719' y='448' class='fk'>event_id</text></a>
+<a xlink:href='#event_id' title='References events_event ( event_id -> id ) '><use id='fk' x='1820' y='438' xlink:href='#fk'/></a>
+  <a xlink:href='#photo' title='VARCHAR&#040; 100 &#041; not null '><text x='1719' y='461' >photo</text></a>
+  <a xlink:href='#description' title='VARCHAR&#040; 50 &#041; not null '><text x='1719' y='474' >description</text></a>
+
+<!-- ============= Table 'place_place' ============= -->
+<rect class='table' x='481' y='397' width='78' height='104' rx='6' ry='6' />
+<path d='M 481.50 416.00 L 481.50 403.50 Q 481.50 397.50 487.50 397.50 L 552.50 397.50 Q 558.50 397.50 558.50 403.50 L 558.50 416.00 L481.50 416.00 ' style='fill:url(#tableHeaderGradient); stroke:none;' />
+<line class='table' x1='481' y1='416' x2='559' y2='416'/>
+<a xlink:href='#place_place' title='zpi.place_place' ><text x='488' y='409' class='tableTitle'>place_place</text></a>
+  <a xlink:href='#id' title='Primary Key  ( id ) '><use id='pk' x='483' y='427' xlink:href='#pk'/></a>
+<a xlink:href='#id' title='INT not null '><text x='497' y='435' class='pk'>id</text></a>
+<a xlink:href='#id' title='Referred by events_event ( place_id -> id ) '><use id='ref' x='546' y='425' xlink:href='#ref'/></a>
+  <a xlink:href='#name' title='VARCHAR&#040; 200 &#041; not null '><text x='497' y='448' >name</text></a>
+  <a xlink:href='#address' title='VARCHAR&#040; 100 &#041; not null '><text x='497' y='461' >address</text></a>
+  <a xlink:href='#city_id' title='Index  ( city_id ) '><use id='idx' x='483' y='466' xlink:href='#idx'/></a>
+<a xlink:href='#city_id' title='INT not null '><text x='497' y='474' class='fk'>city_id</text></a>
+<a xlink:href='#city_id' title='References cities_province ( city_id -> id ) '><use id='fk' x='546' y='464' xlink:href='#fk'/></a>
+  <a xlink:href='#location' title='POINT '><text x='497' y='487' >location</text></a>
+
+<!-- ============= Table 'statistics_eventstatistic' ============= -->
+<rect class='table' x='1560' y='215' width='143' height='117' rx='6' ry='6' />
+<path d='M 1560.50 234.00 L 1560.50 221.50 Q 1560.50 215.50 1566.50 215.50 L 1696.50 215.50 Q 1702.50 215.50 1702.50 221.50 L 1702.50 234.00 L1560.50 234.00 ' style='fill:url(#tableHeaderGradient); stroke:none;' />
+<line class='table' x1='1560' y1='234' x2='1703' y2='234'/>
+<a xlink:href='#statistics_eventstatistic' title='zpi.statistics_eventstatistic' ><text x='1565' y='227' class='tableTitle'>statistics_eventstatistic</text></a>
+  <a xlink:href='#id' title='Primary Key  ( id ) '><use id='pk' x='1562' y='245' xlink:href='#pk'/></a>
+<a xlink:href='#id' title='INT not null '><text x='1576' y='253' class='pk'>id</text></a>
+  <a xlink:href='#event_id' title='Index  ( event_id ) '><use id='idx' x='1562' y='258' xlink:href='#idx'/></a>
+<a xlink:href='#event_id' title='INT not null '><text x='1576' y='266' class='fk'>event_id</text></a>
+<a xlink:href='#event_id' title='References events_event ( event_id -> id ) '><use id='fk' x='1690' y='256' xlink:href='#fk'/></a>
+  <a xlink:href='#atmosphere_avg' title='DOUBLE not null '><text x='1576' y='279' >atmosphere_avg</text></a>
+  <a xlink:href='#organisation_avg' title='DOUBLE not null '><text x='1576' y='292' >organisation_avg</text></a>
+  <a xlink:href='#overall' title='DOUBLE not null '><text x='1576' y='305' >overall</text></a>
+  <a xlink:href='#liked_count' title='INT not null '><text x='1576' y='318' >liked_count</text></a>
+
+<!-- ============= Table 'tags_eventtag' ============= -->
+<rect class='table' x='1404' y='254' width='91' height='78' rx='6' ry='6' />
+<path d='M 1404.50 273.00 L 1404.50 260.50 Q 1404.50 254.50 1410.50 254.50 L 1488.50 254.50 Q 1494.50 254.50 1494.50 260.50 L 1494.50 273.00 L1404.50 273.00 ' style='fill:url(#tableHeaderGradient); stroke:none;' />
+<line class='table' x1='1404' y1='273' x2='1495' y2='273'/>
+<a xlink:href='#tags_eventtag' title='zpi.tags_eventtag' ><text x='1410' y='266' class='tableTitle'>tags_eventtag</text></a>
+  <a xlink:href='#id' title='Primary Key  ( id ) '><use id='pk' x='1406' y='284' xlink:href='#pk'/></a>
+<a xlink:href='#id' title='INT not null '><text x='1420' y='292' class='pk'>id</text></a>
+  <a xlink:href='#name' title='VARCHAR&#040; 50 &#041; not null '><text x='1420' y='305' >name</text></a>
+  <a xlink:href='#event_id' title='Index  ( event_id ) '><use id='idx' x='1406' y='310' xlink:href='#idx'/></a>
+<a xlink:href='#event_id' title='INT not null '><text x='1420' y='318' class='fk'>event_id</text></a>
+<a xlink:href='#event_id' title='References events_event ( event_id -> id ) '><use id='fk' x='1482' y='308' xlink:href='#fk'/></a>
+
+<!-- ============= Table 'user_profile_userprofile' ============= -->
+<rect class='table' x='312' y='228' width='156' height='104' rx='6' ry='6' />
+<path d='M 312.50 247.00 L 312.50 234.50 Q 312.50 228.50 318.50 228.50 L 461.50 228.50 Q 467.50 228.50 467.50 234.50 L 467.50 247.00 L312.50 247.00 ' style='fill:url(#tableHeaderGradient); stroke:none;' />
+<line class='table' x1='312' y1='247' x2='468' y2='247'/>
+<a xlink:href='#user_profile_userprofile' title='zpi.user_profile_userprofile' ><text x='322' y='240' class='tableTitle'>user_profile_userprofile</text></a>
+  <a xlink:href='#id' title='Primary Key  ( id ) '><use id='pk' x='314' y='258' xlink:href='#pk'/></a>
+<a xlink:href='#id' title='INT not null '><text x='328' y='266' class='pk'>id</text></a>
+  <a xlink:href='#user_id' title='Unique Index  ( user_id ) '><use id='unq' x='314' y='271' xlink:href='#unq'/></a>
+<a xlink:href='#user_id' title='INT not null '><text x='328' y='279' class='fk'>user_id</text></a>
+<a xlink:href='#user_id' title='References auth_user ( user_id -> id ) '><use id='fk' x='455' y='269' xlink:href='#fk'/></a>
+  <a xlink:href='#avatar' title='VARCHAR&#040; 100 &#041; not null '><text x='328' y='292' >avatar</text></a>
+  <a xlink:href='#province_id' title='Unique Index  ( province_id ) '><use id='unq' x='314' y='297' xlink:href='#unq'/></a>
+<a xlink:href='#province_id' title='INT not null '><text x='328' y='305' class='fk'>province_id</text></a>
+<a xlink:href='#province_id' title='References cities_province ( province_id -> id ) '><use id='fk' x='455' y='295' xlink:href='#fk'/></a>
+  <a xlink:href='#city' title='VARCHAR&#040; 50 &#041; not null '><text x='328' y='318' >city</text></a>
+
+</g></svg>
+
+</body></html>

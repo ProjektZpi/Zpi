@@ -1,0 +1,309 @@
+{% extends "schema_main_page.html" %}
+
+{% block title %}Szczegóły wydarzenia - Coolturalni.pl {% endblock %}
+
+{% block head_extensions %}
+
+<link rel="stylesheet" href="{{ MEDIA_URL }}css/events/event_detail.css">
+<!-- <script src="{{ MEDIA_URL }}js/events/events_grid.js"></script> -->
+<link rel="stylesheet" href="{{ MEDIA_URL }}css/place/jquery-autocomplete.css">
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+<script src="{{ MEDIA_URL }}js/place/gmap3.min.js"></script>
+<script src="{{ MEDIA_URL }}js/place/jquery-autocomplete.min.js"></script>
+<script src="{{ MEDIA_URL }}js/place/view_map.js"></script>
+
+<link rel="stylesheet" href="{{ MEDIA_URL }}css/jquery-star/jquery.rating.css">
+<link rel="stylesheet" href="{{ MEDIA_URL }}css/event_feedbacks/add_feedback.css">
+
+<script src="{{ MEDIA_URL }}js/plugins/jquery-star/jquery.rating.pack.js"></script>
+<script src="{{ MEDIA_URL }}js/plugins/jquery-star/jquery.MetaData.js"></script>
+<script src="{{ MEDIA_URL }}js/event_feedbacks/add_feedback.js"></script>
+<script src="{{ MEDIA_URL }}js/calendar/join.js"></script>
+ 
+<script type="text/javascript">
+
+     refresh_stars(); 
+	 $(document).ready(function() {	
+		 $('#send').click(function() {	
+		 	add_feedback("{% url zpi_django.event_feedbacks.views.add_feedback_json %}"); 
+	     });
+	});	
+
+
+			
+</script> 
+
+<script type="text/javascript">
+	 $(document).ready(function() {	
+		 $('#join').click(function() {	
+		 	join("{% url zpi_django.calendar.views.join_json%}"); 
+	     });
+	});	
+</script> 
+
+
+
+
+<link rel="stylesheet" href="{{ MEDIA_URL }}css/event_comments/add_comment.css">
+
+ <script src="{{ MEDIA_URL }}js/events/time_to_start.js"></script>
+ <script type="text/javascript">
+	 $(document).ready(function() {
+	 		count_to_start('{{ event.start_date.year }}','{{ event.start_date.month }}','{{ event.start_date.day }}', '{{ event.start_date.hour }}', '{{ event.start_date.minute }}' );
+	 		setInterval("count_to_start('{{ event.start_date.year }}','{{ event.start_date.month }}','{{ event.start_date.day }}', '{{ event.start_date.hour }}', '{{ event.start_date.minute }}' )",1000);
+	});
+</script> 
+
+ <script src="{{ MEDIA_URL }}js/event_comments/add_comment.js"></script> 
+ <script type="text/javascript">
+ 	var lat={{ event.place.location.x }};
+	var lng={{ event.place.location.y }};	
+	 $(document).ready(function() {
+		 $('#dodaj').click(function() {
+		 	comment("{% url zpi_django.event_comments.views.add_comment_json %}"); 
+		 });
+	}); 	
+</script> 
+ <script src="{{ MEDIA_URL }}js/events/events_grid.js"></script>
+
+
+{% endblock %}
+
+{% block container %}
+<div id="container">
+	<div id="center" class="column">
+		<div id="center_place">
+		{% if can_write_comments %}
+				{% if can_join %}
+					<div id="join"><div id="join_button" class="button" style="font-size:11px;">Wezmę udział</div></div>
+				{% else %}
+					<div id="join"><p id='joined'>Jesteś zapisany do tego wydarzenia</p></div>
+				{% endif %}
+		{% endif %}
+			<h2>{{ event.name }}</h2>
+			<img class="logo" src="{{ event.miniature.url }}" />
+			<p>{{ event.description }}</p>
+			
+		<input id="address" type="text" size="60" autocomplete="off">
+		<br/><br/>
+		<div id="map" style="height:350px; width:600px"></div>
+		<div id="directions" style="height:auto;"></div>	
+		<hr class="divide" />				
+			
+			
+		<div id="comments">
+			{% if comments %}
+			    <p><br/>Komentarze do wydarzenia:</p>
+			    <table id="comments">
+			        {% for comment in comments %}
+				        <tr>
+				        	<td colspan="3"><hr class="table_hr"/></td>
+				        </tr>
+				        <tr>
+					        <td class="comment_author_avatar">
+								{% if comment.user.get_profile.avatar %}
+									<img src="{{ comment.user.get_profile.avatar.url }}" width='100%'/>
+								{% else %}
+									{% if comment.user.get_profile.gender = 'K' %}
+										<img src="{{ MEDIA_URL }}images/women_avatar_default.jpg" width='100%' />
+									{% else %}
+										<img src="{{ MEDIA_URL }}images/men_avatar_default.jpg"  width='100%'/>
+									{% endif %}
+								{% endif %}
+							</td> 
+					        <td class="hr_vertical"></td>
+					        <td class="comment_author">{{ comment.user }} <br/><span id="comment_date">{{ comment.date }}</span></td>
+					    </tr>
+					    <tr> 
+					    	<td colspan="2"></td>   
+					        <td class="comment_content">{{ comment.comment }} </td>
+				        </tr>
+			        {% endfor %}
+			    </table>    
+			{% else %}
+		    	<p>Nikt nie napisal komentarza, badz pierwszy!</p>
+		    {% endif %}
+	  	</div>
+			<div id="add_comment">
+				{% if can_write_comments %}
+					<h2><br/>Dodaj komentarz:</h2>
+					<form>
+					
+					<textarea id="textarea_comment" style="width:70%"></textarea></input>
+					<input type="hidden" id="event_id" value=" {{ event.id }}"></input><br/>
+					<input type="button" id="dodaj" class="button" value="Dodaj"><br/><br/>
+					</form>
+				{% else %}
+					<p><br/>Zaloguj się aby dodać komentarz</p>
+				{% endif %}	
+			</div>
+			
+		</div>		
+	</div>	
+
+<!-- LEFT COLUMN -->
+<div id="left" class="column">
+	<ul id="sortable" style=" list-style-type: none;margin:0;padding:0;">
+		<li>
+			<div class="widget" id="time_to_start">
+				<div class="widget_title">
+					<a href="#">Do rozpoczęcia:</a><img class="widget_hide" /><hr/>
+				</div>
+				<div class="widget_list_item" id="time_to_start_count">
+				</div>				
+			</div>
+		</li>
+		<li>
+			<div class="widget" id="feedback">
+				<div class="widget_title">
+					<a href="#">Ocena wydarzenia:</a><img class="widget_hide" /><hr/>
+				</div>
+				<table id="table_statistic">
+					<tr>
+						<td class="label">Atmosfera:</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td id="atmosphere_avg">{% autoescape off %}{{ atmosphere_avg }}{% endautoescape %} </td>
+						<td id="atmosphere_number">{{ atmosphere}}</td>
+					</tr>
+					<tr>	
+						<td class="label">Organizacja: </td>
+						<td></td>
+					</tr>
+					<tr>
+						<td id="organisation_avg">{% autoescape off %}{{ organisation_avg }}{% endautoescape %}</td>
+						<td id="organisation_number">{{ organisation}}</td>
+					</tr>
+				</table>
+			</div>
+		</li>
+		<li>		
+			<div class="widget" id="feedback">
+				<div class="widget_title">
+					<a href="#">Wystaw ocenę:</a><img class="widget_hide" /><hr/>
+				</div>
+				<div id="add_feedback">
+					{% if can_write %}
+							<p id="widget_header">Dodaj ocenę:</p>
+							<form name="rate" id="rate_atmosphere">
+								<table id="table_add_feedback">
+									<tr>
+										<td class="label">Atmosfera:</td>
+									</tr>
+									<tr>
+										<td>
+											<input name="rate_atmosphere" type="radio" class="star required" value="1">
+											<input name="rate_atmosphere" type="radio" class="star" value="2"/>
+											<input name="rate_atmosphere" type="radio" class="star" value="3"/>
+											<input name="rate_atmosphere" type="radio" class="star" value="4"/>
+											<input name="rate_atmosphere" type="radio" class="star" value="5"/>
+										 </td>
+									</tr>	 
+									<tr>
+										<td class="label">Organizacja:</td>
+									</tr>
+									<tr>
+										<td>
+											<input name="rate_organisation" type="radio" class="star required" value="1">
+											<input name="rate_organisation" type="radio" class="star" value="2"/>
+											<input name="rate_organisation" type="radio" class="star" value="3"/>
+											<input name="rate_organisation" type="radio" class="star" value="4"/>
+											<input name="rate_organisation" type="radio" class="star" value="5"/>
+										</td>
+									</tr>
+								</table>
+								<br/>		
+								<input type="hidden" id="event_id" value=" {{ event_id }}"></input>
+								<input type="button" value="Wyślij" id="send" id="send"/>
+							</form>
+
+					{% else %}
+						 <p id="feedback_error">{{error}}</p>
+					{% endif %}	 
+				</div>	
+			</div>				
+		</li>
+	</ul>
+</div>
+<!-- END LEFT COLUMN -->
+<!-- ##################################################### --->
+<!-- RIGHT COLUMN -->
+<div id="right" class="column">
+	<ul id="sortable2" style=" list-style-type: none;margin:0;padding:0;">
+	<li>
+		<!-- WIDGET 1 -->
+		<div class="widget">
+			<div class="widget_title">
+				<a href="#">Data i czas</a><img class="widget_hide" /><hr/>
+			</div>
+			<div class="widget_list_item">
+				<a><b>Rozpoczęcie:</b>
+					<ul class="data">
+						<li>{{ event.start_date|date:"d E Y" }}</li>
+						<li>{{ event.start_date|time }}</li>
+					</ul>
+				</a>
+				<a><b>Zakończenie:</b>
+					<ul class="data">
+						<li>{{ event.end_date|date:"d E Y" }}</li>
+						<li>{{ event.end_date|time }}</li>
+					</ul>
+				</a
+			</div><hr/>
+		</div>
+	</li>
+	<li>
+	<!-- WIDGET 2 -->
+		<div class="widget">
+			<div class="widget_title">
+				<a href="#">Miejsce</a><img class="widget_hide" /><hr/>
+			</div>
+			<div class="widget_list_item">
+			</div><hr/>
+		</div>
+	</li>
+	<li>
+	<!-- WIDGET 3 -->
+		<div class="widget">
+			<div class="widget_title">
+				<a href="#">Bilety</a><img class="widget_hide" /><hr/>
+			</div>
+			<div class="widget_list_item">
+			</div><hr/>
+		</div>
+	</li>
+	<li>
+	<!-- WIDGET 4 -->
+		<div class="widget">
+			<div class="widget_title">
+				<a href="#">Tagi</a><img class="widget_hide" /><hr/>
+			</div>
+			<div class="widget_list_item">
+				<ul class="tag">
+					<li><a>Tag 1</a></li>
+					<li><a>Tag 2</a></li>
+				</ul>
+			</div><hr/>
+		</div>
+	</li>
+	<li>
+	<!-- WIDGET 5 -->
+		<div class="widget">
+			<div class="widget_title">
+				<a href="#">Autor</a><img class="widget_hide" /><hr/>
+			</div>
+			<div class="widget_list_item">
+				<ul class="widget_list_item">
+					<p class="widget_text">
+						{{ event.user }} ({{ author_statistic}})
+					</p>
+				</ul>
+			</div><hr/>
+		</div>
+	</li>
+	</ul>
+</div>
+<!-- END RIGHT COLUMN -->
+</div>
+{% endblock %}

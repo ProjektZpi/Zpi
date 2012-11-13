@@ -1,0 +1,31 @@
+<nav>
+	<ul>
+		{% if login_form %}
+		<li id="login">
+			<a id="login-trigger" href="#">Logowanie <span>▼</span></a>
+			<div id="login-content">
+				<form method="post" action="{% url zpi_django.auth.views.login_view %}" id="login_form">{% csrf_token %}
+					<table>
+					{% for field in login_form %}
+						<tr><td>{{ field }}</td><td style="padding-bottom:15px;">{{ field.label_tag }}</td></tr>
+					{% endfor %}
+						<tr><td style="text-align:center"><p class="error"></p></td></tr>
+						<tr><td>
+							<button style="height:25px;font-size:0.8em;" type="submit" name="submit" class="button" tabindex="5">Zaloguj</button>	
+						</td></tr>
+					</table>
+				</form>
+			</div>                     
+		</li>
+		<li id="signup">
+			<a href="{% url zpi_django.auth.views.register_view %}">Rejestracja</a>
+		</li>
+		{% else %}
+		<li>
+			<a href="" style="margin-top:10px;">Komunikaty [0]</a>
+			<a href="{% url zpi_django.user_profile.views.my_profile %}">Moje konto</a>
+			<a href="{% url zpi_django.auth.views.logout_view %}">Wyloguj</a>
+		</li>
+		{% endif %}
+	</ul>
+</nav>

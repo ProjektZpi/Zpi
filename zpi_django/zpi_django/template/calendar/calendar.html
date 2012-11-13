@@ -1,0 +1,112 @@
+
+	
+	{% extends "schema_main_page.html" %}
+
+{% block title %}Kalendarz - Coolturalni.pl {% endblock %}
+
+{% block head_extensions %}
+<link rel="stylesheet" href="{{ MEDIA_URL }}css/calendar/calendar.css">
+<link rel="stylesheet" href="{{ MEDIA_URL }}css/calendar/tipTip.css">
+<script src="{{ MEDIA_URL }}js/plugins/TipTip/jquery.tipTip.js"></script>
+<script src="{{ MEDIA_URL }}js/plugins/TipTip/jquery.tipTip.minified.js"></script>
+<script src="{{ MEDIA_URL }}js/plugins/TipTip/translation.js"></script>
+
+
+<script type="text/javascript">
+	$(function(){
+		$(".tooltip").tipTip({maxWidth: "auto", edgeOffset: 10, defaultPosition: "top"});
+	});
+
+
+</script>
+
+{% endblock %}
+
+{% block container %}
+<div id="container">
+<div id="center" class="column">
+	<div id="center_place">
+	
+		{{ calendar }}
+
+		<table id="navigation">
+			<tr>
+				<td>
+			    	<a href="{% url zpi_django.calendar.views.calendar year=previous_year, month=month %}" style="font-size:12px;"  class="button" ><< Poprzedni rok </a>
+				</td>
+				<td>
+					{% if previous_month > 0 %}
+						<a href="{% url zpi_django.calendar.views.calendar year=year, month=previous_month %}"  style="font-size:12px;" class="button" >< Poprzedni miesiąc </a>
+					{% else %}
+						<a href="{% url zpi_django.calendar.views.calendar year=previous_year, month=12 %}" style="font-size:12px;" class="button" >< Poprzedni miesiąc </a>
+					{% endif %}
+				</td>
+				<td>
+					{% if next_month < 13 %}
+						<a href="{% url zpi_django.calendar.views.calendar year=year, month=next_month %}" style="font-size:12px;" class="button" >Następny miesiąc ></a>
+					{% else %}
+						<a href="{% url zpi_django.calendar.views.calendar year=next_year, month=1 %}"   style="font-size:12px;" class="button" >Następny miesiąc ></a>
+					{% endif %}
+				</td>
+				<td>
+					<a href="{% url zpi_django.calendar.views.calendar year=next_year, month=month %}" style="font-size:12px;"  class="button" ">Następny rok >></a>
+		    	</td>
+		    </tr>
+		</table>
+		<br/>
+		<br/>
+		<p id="calendar_header">Wydarzenia na które jesteś zapisany w tym miesiącu:</p>
+		<ul id="ul_events">
+			{% if my_events %}
+				{% for my_event in my_events %}
+			   		 <li><a href="{% url zpi_django.events.views.event_detail event_id=my_event.event.id %}"><b>{{my_event.event.name}}</b> ({{my_event.event.start_date|date:'d-M H:i'}})</a></li>
+			    {% endfor %}
+			{% else %}
+				<a> Nie jesteś zapisany na żadne wydarzenie</a>
+			{% endif %}
+		</ul>	
+	</div>
+
+	</div>
+
+<!-- LEFT COLUMN -->
+<div id="left" class="column">
+	<ul id="sortable" style=" list-style-type: none;margin:0;padding:0;">
+		<li>
+			<div class="widget">
+				<div class="widget_title">
+					<a href="#">Kategoria</a><img class="widget_hide" /><hr/>
+				</div>
+				<div class="widget_list_item">
+					<a href="#">Kategoria 1</a><hr/><a href="#">Kategoria 2</a><hr/>
+				</div>				
+			</div>
+		</li>
+		<li>
+			<div class="widget">
+				<div class="widget_title">
+					<a href="#">Miasto</a><img class="widget_hide" /><hr/>
+				</div>
+				<div class="widget_list_item">
+					<a href="#">Miasto 1</a><hr/><a href="#">Miasto 2</a><hr/>
+				</div>	
+			</div>
+		</li>
+	</ul>
+</div>
+<!-- END LEFT COLUMN -->
+<!-- ##################################################### --->
+
+</div>
+
+
+<div id="tiptip_holder">
+<div id="tiptip_content">
+<div id="tiptip_arrow">
+<div id="tiptip_arrow_inner"></div>
+</div>
+</div>
+</div>
+{% endblock %}
+
+	

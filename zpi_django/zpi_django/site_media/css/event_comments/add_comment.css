@@ -1,0 +1,59 @@
+#comments{
+	width:100%;
+	font: 1.0em "Helvetica Neue", Helvetica, Arial, sans-serif;
+	color: #7B7B7B;
+    font-size: 0.9em;
+    font-weight: normal;
+}
+
+#textarea_comment{
+width:400px;
+}
+
+#dodaj{
+float:right;
+margin-right:170px;
+}
+
+#comment_date{
+color: #a7a7a7;
+}
+
+.comment_author_avatar{
+	width:8%;
+}
+
+
+.comment_author{
+font-weight: bold;
+font-size: 0.85em;
+line-height:160%;
+}
+
+.comment_content{
+padding-top:10px;
+
+}
+
+.table_hr{
+	border: 1px dotted gray; 
+	border-style: none none dotted; 
+	color: #fff; 
+	background-color: #fff; 
+}
+
+.hr_vertical{
+	border-left: 1px dotted gray; 
+	width:10px;
+}
+
+#add_comment{
+text-align:center;
+
+}
+
+#dodaj:focus
+{
+	background-color: #999999 !important;
+
+}

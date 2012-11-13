@@ -1,0 +1,25 @@
+form#register input, textarea, select {
+	width:250px;
+}
+form#register td.label {
+	width:140px;
+}
+form#register td.errors ul {
+	font-size:0.9em;
+   	margin:0 0 5px 30px;
+   	padding:0;
+   	list-style:none;
+}
+form#register td.errors ul li {
+  	font-size:0.8em;
+	color: #af0202;
+   	margin:0;
+   	padding:0;
+}
+
+.error {
+  	font-size:0.8em;
+	color: #af0202;
+	margin:0; 
+	padding: 0;
+}
