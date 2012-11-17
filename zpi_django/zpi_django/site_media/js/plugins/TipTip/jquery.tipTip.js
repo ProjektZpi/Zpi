@@ -18,7 +18,8 @@
  *   http://www.opensource.org/licenses/mit-license.php
  *   http://www.gnu.org/licenses/gpl.html
  */
-
+function tip()
+{		
 (function($){
 	$.fn.tipTip = function(options) {
 		var defaults = { 
@@ -189,3 +190,4 @@
 		});
 	}
 })(jQuery);  	
+	}	

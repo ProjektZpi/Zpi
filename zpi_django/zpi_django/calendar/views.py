@@ -1,3 +1,4 @@
+# -*- coding: utf8 -*-
 from django.shortcuts import render_to_response, HttpResponse, redirect, RequestContext
 from django.utils.safestring import mark_safe
 from zpi_django.calendar.WorkoutCalendar  import WorkoutCalendar
@@ -8,30 +9,7 @@ import datetime
 from django.views.decorators.csrf import csrf_exempt
 from django.utils import simplejson
 
-@csrf_exempt
-def calendar2(request):
-    now = datetime.datetime.now()
-    return calendar(request,now.year,now.month) 
 
-@csrf_exempt
-def calendar(request, year, month):
-    if request.user.is_authenticated():
-        my_events = Calendar.objects.filter(event__start_date__year=year, event__start_date__month=month, user=request.user.pk)  
-        my_events=my_events.order_by('event__start_date')
-        
-        
-        year=int(year)
-        month= int(month)
-        
-        next_month=month+1
-        next_year=year+1
-        previous_month=month-1
-        previous_year=year-1
-        cal = WorkoutCalendar(my_events).formatmonth(year, month)
-        
-        return render_to_response('calendar/calendar.html', {'calendar': mark_safe(cal), 'my_events':my_events, 'next_month':next_month, 'next_year':next_year,'previous_month':previous_month, 'previous_year':previous_year, 'month':month, 'year':year}, context_instance=RequestContext(request))
-    else:
-        return redirect('/')
 
 @csrf_exempt
 def join_json(request):  
@@ -53,6 +31,45 @@ def join_json(request):
     
     return HttpResponse(json, mimetype='application/json')
          
+         
+@csrf_exempt
+def calendar_json(request):  
 
+    year=request.POST.get('year')
+    month=request.POST.get('month')
+    
+    year=(int)(year)
+    month=(int)(month)
+
+    my_events = Calendar.objects.filter(event__start_date__year=year, event__start_date__month=month, user=request.user.pk)  
+    my_events=my_events.order_by('event__start_date')
+    
+
+
+    next_month=month+1
+    next_year=year+1
+    previous_month=month-1
+    previous_year=year-1
+    cal = WorkoutCalendar(my_events).formatmonth(year, month)
+    
+    #lista eventow
+    my_events = Calendar.objects.filter(event__start_date__year=year, event__start_date__month=month, user=request.user.pk)  
+    my_events=my_events.order_by('event__start_date')
+    
+    event_list=""
+    if my_events.count()!=0:
+       for my_event in my_events:
+           event_list+="<li><a href='/wydarzenia/informacje/"+str(my_event.event.id)+"'><b>"+my_event.event.name+"</b> "+str(my_event.event.start_date)+"</a></li>"
+    else:
+        event_list="<a> Nie jesteś zapisany na żadne wydarzenie</a>"
+    
+    
+    to_json = {
+               "calendar":mark_safe(cal),
+               "event_list": event_list,
+               }
+    json = simplejson.dumps(to_json);
+
+    return HttpResponse(json, mimetype='application/json')
 
 

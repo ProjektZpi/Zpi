@@ -34,10 +34,7 @@ admin.site.register(EventComment)
 # APP event_feedbacks
 from zpi_django.event_feedbacks.models import EventFeedback
 admin.site.register(EventFeedback)
-###############################################################################################################
-# APP event_observators
-from zpi_django.event_observators.models import EventObservator
-admin.site.register(EventObservator)
+
 
 ###############################################################################################################
 # APP statistics

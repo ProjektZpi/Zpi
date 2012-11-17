@@ -1,10 +1,19 @@
 {% extends "schema_main_page.html" %}
 
-{% block title %}Dodaj wydarzenie - Coolturalni.pl {% endblock %}
+{% block title %}Profil użytkownika - Coolturalni.pl {% endblock %}
 
 {% block head_extensions %}
 <script src="{{ MEDIA_URL }}js/user_profile/edit_profile.js"></script>
+<link rel="stylesheet" href="{{ MEDIA_URL }}css/calendar/calendar.css">
+<link rel="stylesheet" href="{{ MEDIA_URL }}css/calendar/tipTip.css">
+<script src="{{ MEDIA_URL }}js/calendar/calendar_json.js"></script>
+<script src="{{ MEDIA_URL }}js/jquery.livequery.min.js"></script>
+
+<script src="{{ MEDIA_URL }}js/calendar/translation.js"></script>
+<script src="{{ MEDIA_URL }}js/plugins/TipTip/jquery.tipTip.js"></script>
+
 <script>
+
 	$(function() {
 		$( "#accordion" ).accordion({
 			active: false,
@@ -13,6 +22,64 @@
 		});
 		$( "#tabs" ).tabs();
 	});
+
+
+
+
+
+   
+   var year={{year}}
+   var month={{month}}
+   
+   	 $(document).ready(function() {	
+   		
+		$(function(){
+			$(".tooltip").tipTip({maxWidth: "auto", edgeOffset: 10, defaultPosition: "top"})
+	
+		});
+		tip();
+
+		 $('#previous_year').click(function() {	
+			year=year-1;
+		 	update_calendar("{% url zpi_django.calendar.views.calendar_json %}", year, month); 
+ 			tip();
+		});
+	     
+		$('#previous_month').livequery('click', function(event) { 
+
+			if(month==1){
+				month=12;
+				year=year-1;
+			}else{
+				month=month-1;
+			}
+		 	update_calendar("{% url zpi_django.calendar.views.calendar_json %}", year, month); 
+
+
+			 $("#tooltip_id").tipTip();
+
+		});
+
+		$('#next_month').click(function() {	
+			if(month==12){
+				month=1;
+				year=year+1;
+			}else{
+				month=month+1;
+			}
+		 	update_calendar("{% url zpi_django.calendar.views.calendar_json %}", year, month); 
+	     });
+
+		$('#next_year').click(function() {
+			year=year+1;	
+		 	update_calendar("{% url zpi_django.calendar.views.calendar_json %}", year, month); 
+	     });
+
+	});	
+
+
+
+
 </script>
 <link rel="stylesheet" href="{{ MEDIA_URL }}css/user_profile/my_profile.css">
 {% endblock %}
@@ -33,7 +100,38 @@
 		<p>1 Proin elit arcu, rutrum commodo, vehicula tempus, commodo a, risus. Curabitur nec arcu. Donec sollicitudin mi sit amet mauris. Nam elementum quam ullamcorper ante. Etiam aliquet massa et lorem. Mauris dapibus lacus auctor risus. Aenean tempor ullamcorper leo. Vivamus sed magna quis ligula eleifend adipiscing. Duis orci. Aliquam sodales tortor vitae ipsum. Aliquam nulla. Duis aliquam molestie erat. Ut et mauris vel pede varius sollicitudin. Sed ut dolor nec orci tincidunt interdum. Phasellus ipsum. Nunc tristique tempus lectus.</p>
 	</div>
 	<div id="tabs-2">
-			{{ calendar }}
+		<div id="calendar">
+		   {{ calendar }}
+		</div>
+			<table id="navigation">
+				<tr>
+					<td>
+				    	<a href="#" id="previous_year" style="font-size:12px;"  class="button" ><< Poprzedni rok </a>
+					</td>
+					<td>
+						<a href="#" id="previous_month" style="font-size:12px;"  class="button" >< Poprzedni miesiąc </a>	
+					</td>
+					<td>
+						<a href="#" id="next_month" style="font-size:12px;"  class="button" >Następny miesiąc ></a>
+					</td>
+					<td>
+						<a href="#" id="next_year" style="font-size:12px;"  class="button" >Następny rok >></a>	
+					</td>
+					
+			    </tr>
+			</table>
+			<br/>
+			<br/>
+			<p id="calendar_header">Wydarzenia na które jesteś zapisany w tym miesiącu:</p>
+			<ul id="ul_events">
+				{% if my_events_calendar %}
+					{% for my_event in my_events_calendar %}
+				   		 <li><a href="{% url zpi_django.events.views.event_detail event_id=my_event.event.id %}"><b>{{my_event.event.name}}</b> ({{my_event.event.start_date|date:'d-M H:i'}})</a></li>
+				    {% endfor %}
+				{% else %}
+					<a> Nie jesteś zapisany na żadne wydarzenie</a>
+				{% endif %}
+			</ul>
 		</div>
 	<div id="tabs-3">
 		<h2>Lista wydarzeń utworzonych przez Ciebie</h2><hr class="divide"/>
@@ -202,8 +300,14 @@
 					<a href="#">Najbliższe wydarzenia</a><img class="widget_hide" /><hr/>
 				</div>
 				<div class="widget_list_item">
-					<!-- MIEJSCE NA NAJBLIZSZE WYDARZENIA ZMIENNA: close_events -->
-				</div><hr/>
+						{% if close_events|length > 0 %}
+							{% for close_event in close_events %}
+								<a href="{% url zpi_django.events.views.event_detail close_event.event.id %}" style="font-size:0.9em;"><img src="{{ close_event.event.miniature.url }}" width="30px" style="margin-bottom:-5px;"/> {{ close_event.event.name }}</a><br/><hr/>
+							{% endfor %}
+						{% else %}
+							<p class="widget_text" style="text-align:center">Nie zapisałeś się na żadne wydarzenia.</p>
+						{% endif %}
+				</div>
 			</div>
 		</li>
 		<li>
@@ -214,11 +318,9 @@
 				<div class="widget_list_item">
 					<p class="widget_text">
 						{% if recommended_events|length > 0 %}
-							<ul>
 								{% for event in recommended_events %}
-								<li><a href="{% url zpi_django.events.views.event_detail event.id %}" style="font-size:0.9em;">{{ event.name }}</a></li>
+									<a href="{% url zpi_django.events.views.event_detail event.id %}" style="font-size:0.9em;"><img src="{{ event.miniature.url }}" width="30px" style="margin-bottom:-5px;"/> {{ event.name }}</a><br/><hr/>				
 								{% endfor %}
-							</ul>
 						{% else %}
 							Brak propozycji wydarzeń, oceń kilka wydarzeń, aby otrzymać nowe propozycje.
 						{% endif %}
@@ -240,6 +342,12 @@
 				<a href="#">Statystyki</a><img class="widget_hide" /><hr/>
 			</div>
 			<div class="widget_list_item">
+				<p class="widget_text" style="text-align:center">
+					Twoja punktacja: {{ user_points }}</br></br>
+					Liczba utworzonych wydarzeń: {{ create_events }}</br></br>
+					Liczba znajomych: {{ friend_count }}</br></br>
+					Liczba komentarzy: {{comments_count }}
+				</p>
 			</div><hr/>
 		</div>
 	</li>
@@ -250,20 +358,18 @@
 				<a href="#">Nowi znajomi</a><img class="widget_hide" /><hr/>
 			</div>
 			<div class="widget_list_item">
+				<ul>
+					{% if friends|length > 0 %}
+						{% for friend in friends reversed %}
+							<li><a href="#" style="font-size:0.9em;">{{ friend.friend }}</a></li>
+						{% endfor %}
+					{% else %}
+							<p class="widget_text" style="text-align:center">Nie nawiązałeś żadnych znajomości.</p>
+					{% endif %}
+				</ul>
 			</div><hr/>
 		</div>
 	</li>
-	<li>
-		<!-- WIDGET 3 -->
-		<div class="widget">
-			<div class="widget_title">
-				<a href="#">Historia</a><img class="widget_hide" /><hr/>
-			</div>
-			<div class="widget_list_item">
-			</div><hr/>
-		</div>
-	</li>
-
 	</ul>
 </div>
 </div>

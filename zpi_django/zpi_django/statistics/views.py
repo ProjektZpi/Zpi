@@ -54,6 +54,7 @@ def gustomierz(user_id, number_of_tags):
         user=user[0]
         #wszystkie tagi slownik
         tags = {}
+
         #wyszukiwanie ocen
         for event in EventFeedback.objects.filter(user=user):
             avg = (event.atmosphere+float(event.organisation))/2
@@ -86,8 +87,6 @@ def recommendedEvents(user_id):
         if gustomierz.count()==1:
             tag1=gustomierz[0].tag
 
-        
-
 
         
         now = datetime.datetime.now()
@@ -95,55 +94,64 @@ def recommendedEvents(user_id):
         #wyszukiwanie po tagu nr 1
         number_events=0
         try:
-            tags1 = EventTag.objects.filter(name=tag1, event__start_date__gt=now, event__place__city__name=user.get_profile().city).order_by("event__start_date")
+            tags1 = EventTag.objects.filter(name=tag1).order_by("event__start_date")[0].event.all()
         except EventTag.DoesNotExist:
+            tags1=""
+            
+        if tags1!="":     
             try:
-                tags1 = EventTag.objects.filter(name=tag1, event__start_date__gt=now).order_by("event__start_date")
+                tags1 = tags1.filter(start_date__gt=now, place__city__name=user.get_profile().city).order_by("start_date")
             except EventTag.DoesNotExist:
                 tags1=""
+        
 
+        
         if tags1!="":
             if tags1.count()>=2:        
-                show_events.append(tags1[0].event)
+                show_events.append(tags1[0])
                 number_events=1
-                if tags1[0].event!=tags1[1].event:
-                    show_events.append(tags1[1].event)
+                if tags1[0]!=tags1[1]:
+                    show_events.append(tags1[1])
                     number_events=2
             if tags1.count()==1:    
-                show_events.append(tags1[0].event)
+                show_events.append(tags1[0])
                 number_events=1
+        
         
 
         #wyszukiwanie wydarzen dla tagu nr 2     
         try:
-            tags2 = EventTag.objects.filter(name=tag2, event__start_date__gt=now, event__place__city__name=user.get_profile().city).order_by("event__start_date")
+            tags2 = EventTag.objects.filter(name=tag2).order_by("event__start_date")[0].event.all()
         except EventTag.DoesNotExist:
+            tags2=""
+            
+        if tags2!="":     
             try:
-                tags2 = EventTag.objects.filter(name=tag2, event__start_date__gt=now).order_by("event__start_date")
+                tags2 = tags2.filter(start_date__gt=now, place__city__name=user.get_profile().city).order_by("start_date")
             except EventTag.DoesNotExist:
                 tags2=""
+        
 
         if tags2!="" and number_events>0:
             if tags2.count()>=2 and number_events==1:        
-                if(tags2[0].event!=show_events[0]):
-                    show_events.append(tags2[0].event)
-                if(tags2[1].event!=show_events[0] and tags2[1].event!=show_events[1]):
-                    show_events.append(tags2[1].event)
+                if(tags2[0]!=show_events[0]):
+                    show_events.append(tags2[0])
+                if(tags2[1]!=show_events[0] and tags2[1]!=show_events[1]):
+                    show_events.append(tags2[1])
             if tags2.count()==1: 
                 if  len(show_events)>=2:  
-                    if(tags2[0].event!=show_events[0] and tags2[0].event!=show_events[1]):
-                        show_events.append(tags2[0].event)
+                    if(tags2[0]!=show_events[0] and tags2[0]!=show_events[1]):
+                        show_events.append(tags2[0])
                 else:
-                    if(tags2[0].event!=show_events[0]):
-                        show_events.append(tags2[0].event)
+                    if(tags2[0]!=show_events[0]):
+                        show_events.append(tags2[0])
         else:
             if number_events==0:
                 if  len(show_events)>=2:  
-                        show_events.append(tags2[0].event)
-                        if(tags2[0].event!=tags2[1].event):
-                            show_events.append(tags2[1].event)
+                        show_events.append(tags2[0])
+                        if(tags2[0]!=tags2[1]):
+                            show_events.append(tags2[1])
                 else:
                     if len(show_events)==1:
-                        show_events.append(tags2[0].event)
-                    
+                        show_events.append(tags2[0])
         return show_events

@@ -2,7 +2,7 @@
 
 from django.conf.urls import patterns
 
-from views import my_profile, edit_profile
+from views import my_profile,  edit_profile
 
 urlpatterns = patterns('',
     ('^moj_profil/', my_profile),

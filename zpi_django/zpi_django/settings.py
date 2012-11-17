@@ -150,7 +150,6 @@ INSTALLED_APPS = (
      'zpi_django.place',
      'zpi_django.event_comments',
      'zpi_django.event_feedbacks',
-     'zpi_django.event_observators',
      'zpi_django.statistics',
      'zpi_django.tags',
      'zpi_django.user_profile',

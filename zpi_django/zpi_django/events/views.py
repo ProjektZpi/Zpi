@@ -38,7 +38,7 @@ def add_event(request):
             event=event_form.save(commit=False)
             event.user=current_user
             event.save()
-
+            
             photos= photo_form.save(commit=False)
             photos.event =event
             photos.save()
@@ -46,8 +46,17 @@ def add_event(request):
             tags=tags.split(",") 
             for tag in tags:
                 tag= tag.replace(' ','')
-                event_tag = EventTag(name=tag, event=event)
-                event_tag.save()
+
+                all_tags = EventTag.objects.filter(name=tag)
+                if all_tags.count()==0:
+                    a1 = EventTag(name=tag)
+                    a1.save()
+                    a1.event.add(event)
+
+                else:
+                    a1 = EventTag.objects.get(name=tag)
+                    a1.event.add(event)
+                    
             event_id=event.id
             site= 'http://%s%s' % (Site.objects.get_current().domain,
                                reverse('zpi_django.events.views.event_detail', kwargs={'event_id':event_id}))
@@ -80,10 +89,7 @@ def event_detail(request,event_id):
         author_statistic="brak ocen"
     else:
         author_statistic= author_statistic[0].overall
-
-    #aktualizowanie gustomierza
-    update_gustomierz = gustomierz(request.user.id,2)
-    
+   
     
     can_write_comments=False
     if request.user.is_authenticated():
@@ -155,6 +161,9 @@ def event_detail(request,event_id):
                 if organisation_counter<20:
                     organisation_avg+="<input type='radio' class='star {split:4}' name='organisation_star'  disabled='disabled'/> \n"
                     organisation_counter=organisation_counter+1
+                    
+    #aktualizowanie gustomierza
+    update_gustomierz = gustomierz(request.user.id,2)
     
     return render_to_response('events/event_detail.html', { 'event': event, 'comments': comments, 'can_write':can_write, "can_write_comments": can_write_comments, 'atmosphere_avg':atmosphere_avg, 'organisation_avg':organisation_avg, 'atmosphere': atmosphere_number, 'organisation':organisation_number, 'event_id': event_id,  "error":error, "event":event_to_feedback, 'can_join':can_join, 'author_statistic':author_statistic },
                                   context_instance=RequestContext(request)) 
