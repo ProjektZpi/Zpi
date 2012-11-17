@@ -1,0 +1,209 @@
+{% extends "schema_main_page.html" %}
+
+{% block title %}Dodano wydarzenie - Coolturalni.pl {% endblock %}
+
+{% block head_extensions %}
+
+
+<link rel="stylesheet" href="{{ MEDIA_URL }}css/place/jquery-autocomplete.css"> 
+<link rel="stylesheet" href="{{ MEDIA_URL }}css/events/add_event.css">
+
+
+
+
+<!-- 	<script src="{{ MEDIA_URL }}js/events/data_picker.js"></script>
+	<script src="{{ MEDIA_URL }}js/events/start_stop.js"></script> -->
+							<!-- WIZARD -->
+	<script src="{{ MEDIA_URL }}js/events/jquery.smartWizard-2.0.min.js"></script>
+	<script src="{{ MEDIA_URL }}js/events/wizard_editform.js"></script>
+							<!-- GOOGLE MAPS -->
+	<script src="http://maps.google.com/maps/api/js?sensor=false&language=pl" type="text/javascript"></script>
+		<script src="{{ MEDIA_URL }}js/place/gmap3.min.js"></script>
+		<script src="{{ MEDIA_URL }}js/place/jquery-autocomplete.min.js"></script>
+		<script src="{{ MEDIA_URL }}js/place/edit_map.js"></script>
+
+
+
+<script type="text/javascript">
+	var id_place;		
+	
+	
+	var lat={{ event.place.location.x }};
+	var lng={{ event.place.location.y }};
+	var id={{event.place.id}}	
+	var adr='{{event.place.address}}';
+	var current_city='{{event.place.city}}'
+
+	
+	
+		function send(){
+			
+				if($("#address").val()){
+					adr = $("#address").val();
+				}
+				
+				$.post("{% url zpi_django.place.views.modify_place event.place.id %}",{
+					id:id,
+					address : adr,
+					city : current_city,
+					lat : latlng.lat(),
+					lng : latlng.lng()
+				}, function(data) {
+					console.log(data);
+					$('#submit').click();	
+
+				})
+
+		}
+
+	
+		
+</script>
+
+{% endblock %}
+
+		
+{% block container %}
+
+<div id="container">
+
+<div id="center" class="column">
+	<div id="center_place">
+	<h1>Formularz dodawania wydarzenia</h1>
+	
+
+	
+	<form id="form"enctype="multipart/form-data" method="post">{% csrf_token %}
+		
+		<div id='wizard'>		
+			<ul>
+				<li><a href="#step1">
+					<label class="stepNumber">Krok 1</label>
+					<div class="stepDescr"> 
+						Podstawowe informacje</div>		
+				</a></li>
+
+
+				<li><a href="#step2">
+					<label class="stepNumber">Krok 2</label>
+					<div class="stepDescr"> 
+						Miejsce Wydarzenia</div>		
+				</a></li>
+				
+				<li><a href="#step3">
+					<label class="stepNumber">Krok 2</label>
+					<div class="stepDescr"> 
+						Dodatkowe informacje</div>		
+				</a></li>
+			
+				
+				
+			</ul>	
+			<div id="stepContainer">
+				
+			
+				<div id="step1" >
+					<table class="add_event">
+								<tr><td class="label" class="label"><label for="{{ add_event_form.name.name}}">{{ add_event_form.name.label}}: </label></td>
+								<td class="inputs">{{ add_event_form.name }}</td><td class="error" id="name_error"></td></tr>
+								<tr><td></td><td class="helptext">{{ add_event_form.name.help_text }}</td><td></td></tr>
+															
+								<tr><td class="label" class="label"><label for="{{ add_event_form.category.name}}">{{ add_event_form.category.label}}: </label></td>
+								<td class="inputs">{{ add_event_form.category }}</td><td class="error" id="category_error"></td></tr>
+								<tr><td></td><td class="helptext">{{ add_event_form.category.help_text }}</td><td></td></tr>
+	
+								<tr><td class="label" class="label"><label for="{{ add_event_form.start_date.name}}">{{ add_event_form.start_date.label}}: </label></td>
+								<td class="inputs">{{ add_event_form.start_date }}</td><td class="error" id="start_error"></td></tr>
+								<tr><td></td><td class="helptext">{{ add_event_form.start_date.help_text }}</td><td></td></tr>
+								
+								<tr><td class="label"><label for="{{ add_event_form.end_date.name}}">{{ add_event_form.end_date.label}}: </label></td>
+								<td class="inputs">{{ add_event_form.end_date }}</td><td>{{ add_event_form.end_date.errors }}</td></tr>
+								<tr><td></td><td class="helptext">{{ add_event_form.end_date.help_text }}</td><td></td></tr>
+								
+								
+								<tr><td class="label"><label for="{{ add_event_form.period.name}}">{{ add_event_form.period.label}}: </label></td>
+								<td class="inputs">{{ add_event_form.period }}</td><td class="errors" id="period_error"></td></tr>
+								<tr><td></td><td class="helptext">{{ add_event_form.period.help_text }}</td><td></td></tr>	
+															
+								
+								<tr><td class="label"><label for="{{ add_event_form.introduction.name}}">{{ add_event_form.introduction.label}}: </label></td>
+								<td class="inputs">{{ add_event_form.introduction }}</td><td class="error" id="intr_error"> </td></tr>
+								<tr><td></td><td class="helptext">{{ add_event_form.introduction.help_text }}</td><td></td></tr>								
+								
+								<tr><td class="label"><label for="{{ add_event_form.own_page.name}}">{{ add_event_form.own_page.label}}: </label></td>
+								<td class="inputs">{{ add_event_form.own_page }}</td><td class="error" id="own_page_error"></td></tr>
+								<tr><td></td><td class="helptext">{{ add_event_form.own_page.help_text }}</td><td></td></tr>							
+							
+								<tr> <td class="inputs" style="display:none">{{ add_event_form.place }}</td></tr>
+					</table>				
+	  			 </div>
+	  			 
+				<div id="step2" >
+					<table class="add_event">
+							<input id="address" size="30" type="text" name="auto">
+					
+							<div id="map" style="width: 500px; height: 300px; border: 1px solid black; background: gray;">
+					
+							</div>
+							<div class="error" id="map_error"></div>
+							
+							<input id="lat" type="text" name="auto"/>
+							<br />
+							<input id="lng" type="text" name="auto"/>
+<!--							<input id="save" type="button" class="coordinate_input" value="zapisz"> -->
+																				
+								
+					</table>				
+	  			 </div>	  			   
+			  
+	  			<div id="step3">
+			
+	  				<table class="add_event">		
+	  					 				  				
+					<tr><td class="label"><label for="{{ add_event_form.miniature.name}}">{{ add_event_form.miniature.label}}: </label></td>
+					<td class="inputs">{{ add_event_form.miniature }}</td><td>{{ add_event_form.miniature.errors }}</td></tr>
+					<tr><td></td><td class="helptext">{{ add_event_form.miniature.help_text }}</td><td></td></tr> 
+					
+					
+					<tr><td class="label"><label for="{{ add_event_form.description.name}}">{{ add_event_form.description.label}}: </label></td>
+					<td class="inputs">{{ add_event_form.description }}</td><td class="errors" id="descr_error"> </td></tr>
+					<tr><td></td><td class="helptext">{{ add_event_form.description.help_text }}</td><td></td></tr>		
+					
+					<tr><td class="label"><label for="{{ add_event_form.tickets.name}}">{{ add_event_form.tickets.label}}: </label></td>
+					<td class="inputs">{{ add_event_form.tickets }}</td><td class="errors" id="ticket_error" ></td></tr>
+					<tr><td></td><td class="helptext">{{ add_event_form.tickets.help_text }}</td><td></td></tr>  	
+				    <tr> 
+				    	{{add_tag_form}}
+				    </tr>
+					
+	  										
+					<tr><td colspan="3"><br/><hr id="hr_photo"><br/></td></tr>
+					{% for field in add_photo_form %}
+							<tr><td class="label"><label for="{{ field.name}}">{{ field.label }}:</label></td>
+							<td>{{ field }}</td><td>{{ field.errors }}</td></tr>
+					{% endfor %} 
+					
+					</table>
+				</div> 
+				
+				
+
+				
+				
+				
+				
+			</div>
+			<button style="float:right;" name="submit" id="submit" class="button" tabindex="5">Utwórz wydarzenie</button>			 
+		</div>	
+		
+<div>
+	
+	<div id="footer"></div>
+	</form>
+	<p class="info">Pola oznaczone gwiazdką są wymagane.</p>
+	<br/>
+	</div>
+</div>
+
+
+{% endblock %}

@@ -1,7 +1,23 @@
+#wizard th{	
+	float:left;
+	width:140px;
+	color: #8E8E8E;
+	font-size: 0.8em;
+	text-align:left;
+}
+
 .error{
 	text-align: right;
 	
 }
+
+.ui-autocomplete{
+	width:250px;
+	height:auto;
+	background-color:#F8F8F7;
+	
+}
+
 
 #lat,#lng{
 	
@@ -35,12 +51,17 @@ display:none;
 
 #add_event label, .helptext {
 	font-size:0.8em;
-	color: #8e8e8e;
 	width:200px;
+	color: #8E8E8E;
 }
 
 
-
+hr.divide {
+	background-color: #c4c4c4;
+	border:0;
+	height:1px;
+	margin:9px 0 25px 0;
+}
 .star {
 	color: red;
 }
@@ -72,6 +93,7 @@ h1 {
 	font-size:0.8em;
 	color:#8E8E8E;
 	width:140px;
+	
 }
 
 
@@ -83,23 +105,48 @@ h1 {
 	width:136px;
 }
 
-.stepContainer #id_start_date_1,#id_start_date_2,#id_end_date_1,#id_end_date_2{
+#wizard .stepContainer #id_start_date_1,#id_start_date_2,#id_end_date_1,#id_end_date_2{
 	width:22px;
 }
 .stepContainer #datatime{
 	width:200px;
 }
 .stepContainer td.label{
-	width:140px ;
+	width:145px ;
 }
 
 
 .stepContainer td.inputs{
+	color: #8E8E8E;
 	width:350px ;
 }
 
+.stepContainer td.inputs a{
+	color: #176273;
+	text-decoration: none;
+}
 
-#wizard ul.anchor li {
+.stepContainer td.inputs label[for=miniature-clear_id]{
+	float:left;
+	position:relative;
+}
+.stepContainer td input#miniature-clear_id {
+	width:20px;
+}
+
+#wizard ul.anchor li a{
+	font-size:1em;
+	text-decoration: none;
+	color:#EFEFEF
+}
+#wizard ul.anchor li a label{
+	padding-bottom:10px;
+}
+#wizard .stepContainer{
+	padding-top:35px;
+}
+
+#wizard ul.anchor li a.selected,#wizard ul.anchor li a.selected.error{
 	
 	display:inline;
 	float:left;
@@ -107,7 +154,24 @@ h1 {
 	width:150px;
 	height:80px;
 	margin:10px;
-	background-color: #814385;	
+	background-color: #8B488F;	
+	box-shadow: 5px 5px 8px #888888;
+	text-align: center;
+
+}
+#wizard ul.anchor li a.error{
+	border:1px solid red;
+}
+
+#wizard ul.anchor li a.disabled,#wizard ul.anchor li a.done{
+	
+	display:inline;
+	float:left;
+	position:relative;
+	width:150px;
+	height:80px;
+	margin:10px;
+	background-color: #8F7A8B;	
 	box-shadow: 5px 5px 8px #888888;
 	text-align: center;
 
@@ -115,53 +179,15 @@ h1 {
 
 
 
-#wizard ul.anchor a{
-	outline-style: none;
-	text-decoration: none;
-	color:#FFFFFF;
-	z-index:99;
+#wizard .actionBar .buttonNext{
+	float:right;
 }
 
-
-.buttonDisabled{
+#wizard .actionBar .buttonFinish{
+	clear:right;
+	float:right;
+}
+#wizard .actionBar .buttonDisabled{
 	background-color: #DAD6D6 !important;
 }
-
-.actionBar a,.actionBar a:visited ,.button, .button:visited {
-	background: url(/site_media/images/alert-overlay.png) repeat-x;
-	border: none;
-	display: inline-block;
-	padding: 4px 15px;
-	color: #fff !important;
-	font-weight: bold;
-	text-decoration: none;
-	-moz-border-radius: 3px;
-	-webkit-border-radius: 3px;
-	border-radius: 3px;
-	-moz-box-shadow: 0 1px 3px rgba(0,0,0,0.5);
-	-webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.5);
-	box-shadow: 0 1px 3px rgba(0,0,0,0.5);
-	text-shadow: 0 -1px 1px rgba(0,0,0,0.25);
-	border-bottom: 1px solid rgba(0,0,0,0.25);
-	position: relative;
-	cursor: pointer;
-}
-
-
-
-.actionBar a:active,.button:active {
-	top: 1px;
-}
-
-.actionBar a,.actionBar a:visited,.button, .button:visited {
-	background-color: #999; 
-}
-
-.actionBar a:hover,.button:hover { 
-	background-color: #777; 
-}
-
-
-
-
 

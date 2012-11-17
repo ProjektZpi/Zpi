@@ -84,10 +84,16 @@
 			<img class="logo" src="{{ event.miniature.url }}" />
 			<p>{{ event.description }}</p>
 			
-		<input id="address" type="text" size="60" autocomplete="off">
-		<br/><br/>
-		<div id="map" style="height:350px; width:600px"></div>
-		<div id="directions" style="height:auto;"></div>	
+		<div id="position">
+			<div class="info">
+				<p >Wpisz nazwę swojej miejscowości lub naciśnij prawy przycisk myszy by sprawdzić dojazd</p>
+				<input id="address" type="text" size="60" autocomplete="off">
+			</div>
+
+			
+			<div id="map" style="height:350px; width:600px"></div>
+			<div id="directions" style="height:auto;"></div>				
+		</div>	
 		<hr class="divide" />				
 			
 			

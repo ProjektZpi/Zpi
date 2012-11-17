@@ -17,7 +17,7 @@ DATABASES = {
         'ENGINE': 'django.contrib.gis.db.backends.mysql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
         'NAME': 'zpi',                      # Or path to database file if using sqlite3.
         'USER': 'root',                      # Not used with sqlite3.
-        'PASSWORD': '',                  # Not used with sqlite3.
+        'PASSWORD': 'admin',                  # Not used with sqlite3.
         'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
         'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
     }
@@ -117,6 +117,8 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.tz",
     "django.contrib.messages.context_processors.messages",
     'django.core.context_processors.request',
+    'allauth.account.context_processors.account',
+    'allauth.socialaccount.context_processors.socialaccount'
 )
 
 ROOT_URLCONF = 'zpi_django.urls'
@@ -156,10 +158,19 @@ INSTALLED_APPS = (
      'zpi_django.auth',
      'zpi_django.calendar',
      'zpi_django.friends',
+     'allauth',
+     'allauth.account',
+     'allauth.socialaccount',
+     'allauth.socialaccount.providers.facebook',
+     'allauth.socialaccount.providers.google',
 
 )
 
 
+ACCOUNT_EMAIL_VERIFICATION="none"
+
+LOGIN_REDIRECT_URL='/'
+SOCIALACCOUNT_AUTO_SIGNUP=True
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to

@@ -1,23 +1,24 @@
 # -*- coding: utf8 -*-
-from django.shortcuts import render_to_response, RequestContext
-from zpi_django.events.events_forms import AddEventForm, AddPhotoForm
-from zpi_django.events.models import Event, Category
-from zpi_django.cities.models import City
-from django.views.decorators.csrf import csrf_exempt
-from zpi_django.event_comments.models import EventComment
 from django.contrib.auth.models import User
-from django.db.models import Avg
-import datetime
-from django.utils import timezone
-from zpi_django.event_feedbacks.models import EventFeedback
-from zpi_django.calendar.models import Calendar
-from zpi_django.tags.tag_form import AddTagForm
 from django.contrib.sites.models import Site
 from django.core.urlresolvers import reverse
-from zpi_django.tags.models import EventTag
-from zpi_django.statistics.views import update, recommendedEvents
+from django.db.models import Avg
+from django.forms.models import inlineformset_factory
+from django.http import HttpResponseRedirect
+from django.shortcuts import render_to_response, RequestContext
+from django.utils import timezone
+from django.views.decorators.csrf import csrf_exempt
+from zpi_django.calendar.models import Calendar
+from zpi_django.cities.models import City
+from zpi_django.event_comments.models import EventComment
+from zpi_django.event_feedbacks.models import EventFeedback
+from zpi_django.events.events_forms import AddEventForm, AddPhotoForm
+from zpi_django.events.models import Event, Category
 from zpi_django.statistics.models import AuthorStatistic
-from zpi_django.statistics.views import gustomierz
+from zpi_django.statistics.views import gustomierz, update, recommendedEvents
+from zpi_django.tags.models import EventTag
+from zpi_django.tags.tag_form import AddTagForm
+import datetime
 
 def show_events(request):
     events = Event.objects.all()
@@ -25,6 +26,35 @@ def show_events(request):
     cities = City.objects.all()
     return render_to_response('events/events_grid.html', { 'events': events, 'categories':categories, 'cities':cities },
                                   context_instance=RequestContext(request))
+
+
+@csrf_exempt    
+def modify_event(request,event_id):
+    event=Event.objects.get(id=event_id)
+    e_id=event.id
+    tagFormset=inlineformset_factory(Event,EventTag,can_delete=True,extra=1)       
+    print event.place.location.x  
+    if request.method == 'POST':
+        eventform=AddEventForm(request.POST,request.FILES,instance=event)
+        tagform=tagFormset(request.POST,instance=event)       
+        eventform.save()
+        tagform.save()
+
+        
+        print 'zmienione'
+        url = reverse('zpi_django.events.views.event_detail', kwargs={'event_id': e_id})
+        return HttpResponseRedirect(url)   
+    else:
+            eventform=AddEventForm(instance=event)
+            tagform=tagFormset(instance=event)
+
+            return render_to_response("events/edit_event.html", {'event':event,'add_event_form': eventform,'add_tag_form':tagform
+                                                                      }, context_instance=RequestContext(request))    
+    
+    
+
+
+
 @csrf_exempt
 def add_event(request):
     if request.user.is_authenticated():
